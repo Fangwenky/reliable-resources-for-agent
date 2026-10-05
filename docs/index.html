@@ -376,10 +376,12 @@ function renderFlat(q){
     if (SEG === 'dead') {
       // 归档视图：只看已失效
       if (r.status !== 'dead') return false;
-    } else {
-      // 默认视图与推荐/防伪筛选排除 dead；但有搜索词时保留 dead 命中（辨伪查询）
-      if (!q && r.status === 'dead') return false;
-      if (SEG && r.listing_type !== SEG) return false;
+    } else if (r.status === 'dead') {
+      // dead 只在纯搜索（无类型筛选）中保留命中，用于辨伪查询；
+      // 推荐/防伪筛选下始终排除
+      if (SEG) return false;
+    } else if (SEG && r.listing_type !== SEG) {
+      return false;
     }
     const hay = [r.name, r.name_en, r.description, r.description_en, r.id, (r.tags || []).join(' ')].join(' ').toLowerCase();
     return hay.includes(q);

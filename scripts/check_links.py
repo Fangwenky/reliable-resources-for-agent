@@ -9,8 +9,9 @@
     --apply-degrade                 达到阈值时自动把 resources.yaml 对应条目标记 degraded
 规则：
   - homepage 连续 2 次探活失败  →  status: active → degraded（同时同步顶层 updated_at）
-  - HTTP 403 视为"站点存在但拒绝探活"（反爬虫），不计入连续失败、不触发降级；
-    这类站点可用 probe_url 指定官方 API/页面作为替代存活信号（见 SCHEMA）
+  - HTTP 403 / TLS 错误视为"无法判断"（反爬虫拒绝探活 / 需另行复验），
+    不计入连续失败、不触发降级；这类站点可用 probe_url 指定官方 API/页面
+    作为替代存活信号（见 SCHEMA）
   - mirror 失败只记录进 state，不触发整站降级（镜像坏了不代表主站坏了）
   - 探活成功则清零该 URL 的失败计数；degraded → active 的恢复必须人工操作（防抖动）
   - status 已是 degraded/dead 的条目仍会被探活（用于计数清零），但不再自动改状态
@@ -31,7 +32,7 @@ CI 用法（.github/workflows/link-check.yml）：
                                   [--apply-degrade]
                                   [--strict]
 
-退出码：0 = 全部 active URL 可达；1 = 有 active URL 不可达（--strict 下 degraded 也算失败）。
+退出码：0 = 无不可达的 active URL（"无法判断"不计入失败）；1 = 有 active URL 不可达（--strict 下 degraded 也算失败）。
 """
 
 import argparse
@@ -39,6 +40,7 @@ import concurrent.futures
 import json
 import os
 import re
+import ssl
 import sys
 import urllib.error
 import urllib.request
@@ -59,7 +61,18 @@ PROBE_UA = (
 )
 
 
-def _result(url, ok, status, final_url, error):
+def _is_tls_error(exc: BaseException) -> bool:
+    """判断异常是否为 TLS/证书类错误（需另行复验，不能判定网站失效）。"""
+    if isinstance(exc, ssl.SSLError):
+        return True
+    reason = getattr(exc, "reason", None)
+    if isinstance(reason, ssl.SSLError):
+        return True
+    text = f"{type(exc).__name__} {exc} {type(reason).__name__} {reason}".lower()
+    return any(k in text for k in ("ssl", "tls", "certificate"))
+
+
+def _result(url, ok, status, final_url, error, tls_error=False):
     return {
         "url": url,
         "ok": ok,
@@ -67,13 +80,15 @@ def _result(url, ok, status, final_url, error):
         "final_url": final_url,
         "error": error,
         # blocked=True：HTTP 403，站点存在但拒绝探活（反爬虫）。
-        # 这是"无法判断"而非"失效"，不计入降级所需的连续失败。
+        # tls_error=True：TLS/证书错误，需另行复验。
+        # 两者都是"无法判断"而非"失效"，不计入降级所需的连续失败。
         "blocked": (status == 403 and not ok),
+        "tls_error": (tls_error and not ok),
     }
 
 
 def check_url(url: str, timeout: int) -> dict:
-    """返回 {'url', 'ok', 'status', 'final_url', 'error', 'blocked'}。"""
+    """返回 {'url', 'ok', 'status', 'final_url', 'error', 'blocked', 'tls_error'}。"""
     for method in ("HEAD", "GET"):
         req = urllib.request.Request(
             url, headers={"User-Agent": PROBE_UA}, method=method
@@ -90,7 +105,11 @@ def check_url(url: str, timeout: int) -> dict:
         except Exception as e2:  # noqa: BLE001 - 探活需要捕获所有网络异常
             if method == "HEAD":
                 continue
-            return _result(url, False, None, None, f"{type(e2).__name__}: {e2}")
+            return _result(
+                url, False, None, None,
+                f"{type(e2).__name__}: {e2}",
+                tls_error=_is_tls_error(e2),
+            )
 
 
 def load_state(path: str) -> dict:
@@ -215,10 +234,16 @@ def main() -> int:
             e["last_ok"] = today
             e["last_error"] = None
             e["blocked_hits"] = 0
-        elif r.get("blocked"):
-            # 403：站点存在但拒绝探活，无法判断是否失效 → 不计入连续失败、不触发降级
-            e["blocked_hits"] = e.get("blocked_hits", 0) + 1
-            e["last_blocked"] = today
+            e["tls_hits"] = 0
+        elif r.get("blocked") or r.get("tls_error"):
+            # 无法判断：403（反爬虫拒绝探活）或 TLS 错误（需另行复验），
+            # 不计入连续失败、不触发降级
+            key = "blocked_hits" if r.get("blocked") else "tls_hits"
+            e[key] = e.get(key, 0) + 1
+            e["last_inconclusive"] = today
+            e["inconclusive_reason"] = (
+                "blocked-403" if r.get("blocked") else "tls-error"
+            )
             e["last_error"] = r["error"]
         else:
             e["consecutive_failures"] = e.get("consecutive_failures", 0) + 1
@@ -248,6 +273,7 @@ def main() -> int:
         for r in results
         if not r["ok"]
         and not r.get("blocked")  # 403 只是探活被拒，不算失败
+        and not r.get("tls_error")  # TLS 错误需另行复验，不算失败
         and (args.strict or r["resource_status"] == "active")
     ]
 
@@ -256,6 +282,7 @@ def main() -> int:
         "total": len(results),
         "failed": len(failed),
         "blocked": sum(1 for r in results if r.get("blocked")),
+        "tls_errors": sum(1 for r in results if r.get("tls_error")),
         "degraded_now": sorted(degraded_now),
         "results": sorted(results, key=lambda x: (x["resource"], x["kind"])),
     }
@@ -271,6 +298,13 @@ def main() -> int:
         for r in failed:
             print(f"  - [{r['resource']}] {r['url']}: {r['error']}", file=sys.stderr)
         return 1
+    inconclusive = [r for r in results if r.get("blocked") or r.get("tls_error")]
+    if inconclusive:
+        print(f"\n{len(inconclusive)} 个 URL 无法判断（不计入失败），其余 active URL 可达：")
+        for r in inconclusive:
+            reason = "403 拒绝探活" if r.get("blocked") else "TLS 错误，需人工复验"
+            print(f"  - [{r['resource']}] {r['url']}: {reason}（{r['error']}）")
+        return 0
     print("\n全部 active URL 可达。")
     return 0
 
