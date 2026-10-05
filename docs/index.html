@@ -5,58 +5,138 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reliable Resources for Agent — 可信资源库</title>
 <style>
-  :root { --bg:#f7f7f5; --card:#fff; --ink:#1a1a1a; --muted:#6b7280; --accent:#166534; --warn:#b45309; --bad:#b91c1c; }
+  :root {
+    --bg:#f6f7f4; --card:#ffffff; --ink:#101828; --muted:#667085; --line:#e6e8e0;
+    --hero:#0b1220; --hero2:#111c33; --accent:#047857; --accent-bg:#ecfdf5;
+    --amber-bg:#fffaeb; --amber:#b45309; --blue-bg:#eff6ff; --blue:#1d4ed8;
+    --red-bg:#fef2f2; --red:#b91c1c; --radius:14px;
+  }
   * { box-sizing:border-box; }
-  body { margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); }
-  header { background:#111827; color:#fff; padding:36px 20px; text-align:center; position:relative; }
-  header h1 { margin:0 0 8px; font-size:26px; }
-  header p { margin:4px 0; color:#d1d5db; font-size:14px; }
-  header .tagline { color:#86efac; font-weight:600; }
-  .lang-toggle { position:absolute; top:14px; right:14px; display:flex; border:1px solid #4b5563; border-radius:8px; overflow:hidden; }
-  .lang-toggle button { background:transparent; color:#d1d5db; border:0; padding:6px 12px; font-size:13px; cursor:pointer; }
-  .lang-toggle button.on { background:#86efac; color:#111827; font-weight:600; }
-  .toolbar { max-width:960px; margin:20px auto 0; padding:0 16px; display:flex; gap:10px; flex-wrap:wrap; }
-  .toolbar input, .toolbar select { padding:10px 12px; font-size:15px; border:1px solid #d1d5db; border-radius:8px; background:#fff; }
-  .toolbar input { flex:1; min-width:200px; }
-  .meta { max-width:960px; margin:12px auto 0; padding:0 16px; color:var(--muted); font-size:13px; }
-  .grid { max-width:960px; margin:16px auto 60px; padding:0 16px; display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); }
-  .card { background:var(--card); border-radius:12px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:10px; }
-  .card h2 { margin:0; font-size:18px; }
-  .card .desc { color:#374151; font-size:14px; margin:0; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; }
+
+  /* ---------- header ---------- */
+  header { background:radial-gradient(1200px 500px at 50% -10%, var(--hero2), var(--hero)); color:#fff; position:relative; overflow:hidden; }
+  header::before { content:""; position:absolute; inset:0; opacity:.5;
+    background-image:radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px); background-size:22px 22px;
+    mask-image:linear-gradient(to bottom, black 55%, transparent); }
+  .topbar { position:relative; max-width:1024px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; letter-spacing:.2px; }
+  .brand svg { width:26px; height:26px; }
+  .top-actions { display:flex; align-items:center; gap:10px; }
+  .gh-link { color:#d7dce5; text-decoration:none; font-size:13px; border:1px solid rgba(255,255,255,.22); padding:6px 12px; border-radius:999px; transition:.15s; }
+  .gh-link:hover { background:rgba(255,255,255,.1); color:#fff; }
+  .lang-toggle { display:flex; border:1px solid rgba(255,255,255,.22); border-radius:999px; overflow:hidden; }
+  .lang-toggle button { background:transparent; color:#d7dce5; border:0; padding:6px 13px; font-size:13px; cursor:pointer; transition:.15s; }
+  .lang-toggle button.on { background:#6ee7b7; color:#0b1220; font-weight:700; }
+  .hero { position:relative; max-width:1024px; margin:0 auto; padding:34px 20px 40px; text-align:center; }
+  .hero-badge { display:inline-flex; align-items:center; gap:7px; font-size:12px; letter-spacing:2px; color:#6ee7b7; border:1px solid rgba(110,231,183,.35); padding:6px 14px; border-radius:999px; margin-bottom:18px; }
+  .hero-badge .dot { width:7px; height:7px; border-radius:50%; background:#6ee7b7; box-shadow:0 0 8px #6ee7b7; }
+  .hero h1 { margin:0 0 12px; font-size:clamp(30px,5.4vw,46px); font-weight:800; letter-spacing:1px; }
+  .hero .sub { margin:0 auto 26px; color:#c3cad6; font-size:15px; max-width:640px; line-height:1.7; }
+  .stats { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .stat { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 22px; min-width:120px; }
+  .stat b { display:block; font-size:22px; font-weight:800; }
+  .stat span { font-size:12px; color:#aeb6c6; }
+
+  /* ---------- sticky toolbar ---------- */
+  .toolbar-wrap { position:sticky; top:0; z-index:20; background:rgba(246,247,244,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .toolbar { max-width:1024px; margin:0 auto; padding:14px 20px; display:flex; flex-direction:column; gap:12px; }
+  .search-box { position:relative; }
+  .search-box svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--muted); pointer-events:none; }
+  .search-box input { width:100%; padding:13px 16px 13px 42px; font-size:15px; border:1px solid var(--line); border-radius:12px; background:#fff; outline:none; transition:.15s; }
+  .search-box input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(4,120,87,.12); }
+  .filters { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
+  .chip { border:1px solid var(--line); background:#fff; color:var(--muted); font-size:13px; padding:7px 14px; border-radius:999px; cursor:pointer; transition:.15s; }
+  .chip:hover { border-color:var(--accent); color:var(--accent); }
+  .chip.on { background:var(--ink); border-color:var(--ink); color:#fff; font-weight:600; }
+  .seg { display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:#fff; }
+  .seg button { border:0; background:transparent; padding:7px 14px; font-size:13px; color:var(--muted); cursor:pointer; transition:.15s; white-space:nowrap; }
+  .seg button.on { background:var(--accent-bg); color:var(--accent); font-weight:700; }
+
+  .meta { max-width:1024px; margin:14px auto 0; padding:0 20px; color:var(--muted); font-size:13px; }
+
+  /* ---------- cards ---------- */
+  .grid { max-width:1024px; margin:14px auto 70px; padding:0 20px; display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:12px; transition:transform .18s ease, box-shadow .18s ease; }
+  .card:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(16,24,40,.1); }
+  .card-top { display:flex; gap:13px; align-items:flex-start; }
+  .mono { flex:none; width:46px; height:46px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; background:var(--mb,#eef2ff); color:var(--mf,#3730a3); }
+  .card-top h2 { margin:1px 0 7px; font-size:17px; font-weight:700; }
   .badges { display:flex; gap:6px; flex-wrap:wrap; }
-  .badge { font-size:12px; padding:3px 10px; border-radius:999px; }
-  .b-endorse { background:#dcfce7; color:var(--accent); }
-  .b-ref { background:#fef3c7; color:var(--warn); }
-  .b-active { background:#e0e7ff; color:#3730a3; }
-  .b-degraded { background:#fef3c7; color:var(--warn); }
-  .b-dead { background:#fee2e2; color:var(--bad); }
-  .evidence { font-size:13px; color:var(--muted); background:#f3f4f6; border-radius:8px; padding:8px 10px; }
-  .mirrors { font-size:13px; display:flex; flex-direction:column; gap:6px; }
-  .mirror { display:flex; justify-content:space-between; align-items:center; gap:8px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; padding:8px 10px; }
-  .mirror a { color:#1d4ed8; text-decoration:none; word-break:break-all; }
+  .badge { font-size:11.5px; font-weight:600; padding:3px 10px; border-radius:999px; letter-spacing:.2px; }
+  .b-endorse { background:var(--accent-bg); color:var(--accent); }
+  .b-ref { background:var(--amber-bg); color:var(--amber); }
+  .b-active { background:var(--blue-bg); color:var(--blue); }
+  .b-degraded { background:var(--amber-bg); color:var(--amber); }
+  .b-dead { background:var(--red-bg); color:var(--red); }
+  .b-cat { background:#f2f4f7; color:var(--muted); }
+  .card .desc { color:#344054; font-size:14px; line-height:1.65; margin:0; }
+  .evidence { border-left:3px solid var(--accent); background:var(--accent-bg); border-radius:0 10px 10px 0; padding:10px 12px; display:flex; gap:10px; }
+  .evidence svg { flex:none; width:18px; height:18px; color:var(--accent); margin-top:1px; }
+  .ev-label { font-size:11px; font-weight:700; letter-spacing:1.5px; color:var(--accent); margin-bottom:3px; }
+  .ev-text { font-size:13px; color:#1d2939; line-height:1.55; }
+  .ev-meta { font-size:12px; color:var(--muted); margin-top:3px; }
+  .ref-note { background:var(--amber-bg); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--amber); line-height:1.55; }
+  .risk { background:var(--red-bg); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--red); line-height:1.55; }
+  .mirrors { display:flex; flex-direction:column; gap:6px; }
+  .mirror { display:flex; justify-content:space-between; align-items:center; gap:8px; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:8px 12px; font-size:13px; }
+  .mirror a { color:var(--blue); text-decoration:none; word-break:break-all; }
+  .mirror a:hover { text-decoration:underline; }
   .mirror .m-meta { color:var(--muted); font-size:12px; white-space:nowrap; }
-  .visit { display:inline-block; text-align:center; background:#111827; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-size:15px; margin-top:auto; }
-  .visit:hover { background:#1f2937; }
-  .risk { font-size:13px; color:var(--bad); }
-  footer { text-align:center; color:var(--muted); font-size:13px; padding:30px 16px; }
-  footer a { color:#1d4ed8; }
-  .empty { text-align:center; color:var(--muted); padding:40px; grid-column:1/-1; }
+  .visit { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--ink); color:#fff; text-decoration:none; padding:12px; border-radius:10px; font-size:15px; font-weight:600; margin-top:auto; transition:.15s; }
+  .visit:hover { background:#1d2939; }
+  .visit svg { width:16px; height:16px; }
+
+  .empty { text-align:center; color:var(--muted); padding:60px 20px; grid-column:1/-1; }
+  .empty .big { font-size:40px; margin-bottom:10px; }
+
+  footer { border-top:1px solid var(--line); text-align:center; color:var(--muted); font-size:13px; padding:34px 20px 44px; line-height:2; }
+  footer a { color:var(--blue); text-decoration:none; }
+  footer a:hover { text-decoration:underline; }
+  footer code { background:#eef0ea; padding:2px 8px; border-radius:6px; font-size:12px; color:var(--ink); }
+
+  @media (max-width:640px) {
+    .filters { flex-direction:column; align-items:stretch; }
+    .seg { align-self:flex-start; }
+    .stat { min-width:0; flex:1; padding:8px 10px; }
+  }
 </style>
 </head>
 <body>
 <header>
-  <div class="lang-toggle">
-    <button id="lang-zh">中文</button><button id="lang-en">EN</button>
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span>Reliable Resources</span>
+    </div>
+    <div class="top-actions">
+      <a class="gh-link" id="gh-link" href="https://github.com/Fangwenky/reliable-resources-for-agent" target="_blank" rel="noopener">GitHub</a>
+      <div class="lang-toggle">
+        <button id="lang-zh">中文</button><button id="lang-en">EN</button>
+      </div>
+    </div>
   </div>
-  <h1>Reliable Resources for Agent</h1>
-  <p class="tagline" id="tagline"></p>
-  <p id="subtitle"></p>
+  <div class="hero">
+    <div class="hero-badge"><span class="dot"></span><span id="hero-badge"></span></div>
+    <h1 id="tagline"></h1>
+    <p class="sub" id="subtitle"></p>
+    <div class="stats" id="stats"></div>
+  </div>
 </header>
 
-<div class="toolbar">
-  <input id="q" type="search">
-  <select id="cat"></select>
-  <select id="lt"></select>
+<div class="toolbar-wrap">
+  <div class="toolbar">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="search" autocomplete="off">
+    </div>
+    <div class="filters">
+      <div class="chips" id="chips"></div>
+      <div class="seg" id="seg"></div>
+    </div>
+  </div>
 </div>
 <div class="meta" id="meta"></div>
 <div class="grid" id="grid"></div>
@@ -66,48 +146,62 @@
 <script>
 let RES = [];
 let LANG = localStorage.getItem('rra-lang') || 'zh';
+let CHIP = '', SEG = '';
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+const ARROW_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+const CAT_COLOR = {
+  academic:['#ede9fe','#6d28d9'], ebooks:['#fef3c7','#b45309'], 'dev-tools':['#dbeafe','#1d4ed8'],
+  'ai-tools':['#fae8ff','#a21caf'], media:['#ffe4e6','#be123c'], dataset:['#cffafe','#0e7490'],
+  mirror:['#e2e8f0','#475569'], other:['#f2f4f7','#475569']
+};
+
 const STR = {
   zh: {
+    heroBadge: '人工审核 · HUMAN-REVIEWED',
     tagline: '不信我，信证据。',
-    subtitle: '人工审核 · 持续验证 · 防钓鱼 · 同时服务人类与 AI Agent',
-    searchPh: '搜索资源名称、描述、标签…',
-    allCat: '全部分类', allType: '全部类型',
-    endorsed: '推荐收录', reference: '仅防伪·不做推荐',
-    meta: (n, m) => `共收录 ${n} 条 · 当前显示 ${m} 条`,
-    metaInit: (d, n) => `数据更新于 ${d} · 共收录 ${n} 条`,
-    empty: '没有匹配的资源，换个关键词试试。',
+    subtitle: '每一条收录都经过人工审核与官方渠道交叉验证，并持续探活 —— 同时服务人类用户与 AI Agent。',
+    searchPh: '搜索资源名称、描述、标签…（中英文皆可）',
+    chipAll: '全部',
+    segAll: '全部', segEndorsed: '推荐', segReference: '防伪',
+    statRes: '收录资源', statCat: '覆盖分类', statUpd: '数据更新',
+    showing: m => `当前显示 ${m} 条`,
+    empty: '没有匹配的资源', emptyHint: '换个关键词或分类试试',
     loadFail: '数据加载失败，请稍后重试。',
-    evidence: '✅ 验证依据：',
-    verifiedAt: '验证于',
-    visit: '一键访问官网 →',
-    risk: '⚠️ 灰色地带资源：请注意版权与合规风险',
+    evLabel: '验证依据', verifiedAt: '验证于',
+    visit: '访问官网',
+    risk: '⚠️ 灰色地带资源：请注意版权与合规风险。',
     refNote: '该地址仅用于辨认真伪，本库不做推荐背书。',
-    footer: '数据来源 <a href="data.json">data.json</a>（由 <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub 仓库</a> 自动生成）· <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.zh-CN.md">贡献指南</a> · 发现失效/钓鱼地址请提 issue',
+    footerMain: '数据来源 <a href="data.json">data.json</a>（由 <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub 仓库</a> 自动生成）· <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.zh-CN.md">贡献指南</a> · 发现失效 / 钓鱼地址请提 issue',
+    footerSkill: '🤖 Agent 安装 skill：<code>npx skills add https://github.com/Fangwenky/reliable-resources-for-agent</code>',
     cat: {academic:'学术', ebooks:'电子书', 'dev-tools':'开发工具', 'ai-tools':'AI 工具', media:'影音', dataset:'数据集', mirror:'镜像站', other:'其他'},
     status: {active:'可用', degraded:'不稳定', dead:'已失效'},
+    ltName: {endorsed:'推荐收录', reference:'防伪收录'},
     htmlLang: 'zh-CN'
   },
   en: {
+    heroBadge: 'HUMAN-REVIEWED · 人工审核',
     tagline: "Don't trust me. Trust the evidence.",
-    subtitle: 'Human-reviewed · Continuously verified · Anti-phishing · For humans and AI agents',
-    searchPh: 'Search name, description, tags…',
-    allCat: 'All categories', allType: 'All types',
-    endorsed: 'Endorsed', reference: 'Reference only · no endorsement',
-    meta: (n, m) => `${n} resources · showing ${m}`,
-    metaInit: (d, n) => `Updated ${d} · ${n} resources`,
-    empty: 'No matches — try another keyword.',
+    subtitle: 'Every entry is human-reviewed, cross-verified against official channels, and continuously health-checked — for humans and AI agents alike.',
+    searchPh: 'Search name, description, tags… (EN/中文)',
+    chipAll: 'All',
+    segAll: 'All', segEndorsed: 'Endorsed', segReference: 'Reference',
+    statRes: 'resources', statCat: 'categories', statUpd: 'updated',
+    showing: m => `showing ${m}`,
+    empty: 'No matches', emptyHint: 'Try another keyword or category',
     loadFail: 'Failed to load data. Please retry later.',
-    evidence: '✅ Evidence: ',
-    verifiedAt: 'verified ',
-    visit: 'Visit official site →',
-    risk: '⚠️ Gray-area resource: mind copyright/compliance risks',
+    evLabel: 'VERIFIED', verifiedAt: 'verified ',
+    visit: 'Visit site',
+    risk: '⚠️ Gray-area resource: mind copyright/compliance risks.',
     refNote: 'This address is for authenticity checks only; the registry does not endorse it.',
-    footer: 'Data: <a href="data.json">data.json</a> (auto-generated from the <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub repo</a>) · <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.md">Contributing</a> · Report dead/phishing URLs via issues',
+    footerMain: 'Data: <a href="data.json">data.json</a> (auto-generated from the <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub repo</a>) · <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.md">Contributing</a> · Report dead / phishing URLs via issues',
+    footerSkill: '🤖 Install as an agent skill: <code>npx skills add https://github.com/Fangwenky/reliable-resources-for-agent</code>',
     cat: {academic:'Academia', ebooks:'E-books', 'dev-tools':'Dev Tools', 'ai-tools':'AI Tools', media:'Media', dataset:'Datasets', mirror:'Mirrors', other:'Other'},
     status: {active:'Active', degraded:'Degraded', dead:'Dead'},
+    ltName: {endorsed:'Endorsed', reference:'Reference only'},
     htmlLang: 'en'
   }
 };
@@ -115,94 +209,112 @@ const STR = {
 const t = () => STR[LANG];
 const rname = r => LANG === 'en' ? (r.name_en || r.name) : r.name;
 const rdesc = r => LANG === 'en' ? (r.description_en || r.description) : r.description;
+const badge = (cls, txt) => `<span class="badge ${cls}">${esc(txt)}</span>`;
 
-function badge(cls, txt){ return `<span class="badge ${cls}">${esc(txt)}</span>`; }
+function monoLetter(r){
+  const n = rname(r).trim();
+  const ch = n ? [...n][0].toUpperCase() : '?';
+  const [bg, fg] = CAT_COLOR[r.category] || CAT_COLOR.other;
+  return `<div class="mono" style="--mb:${bg};--mf:${fg}">${esc(ch)}</div>`;
+}
 
 function card(r){
   const s = t();
-  const lt = r.listing_type === 'reference'
-    ? badge('b-ref', s.reference)
-    : badge('b-endorse', s.endorsed);
-  const st = badge('b-'+r.status, s.status[r.status] || r.status);
+  const lt = r.listing_type === 'reference' ? badge('b-ref', s.ltName.reference) : badge('b-endorse', s.ltName.endorsed);
+  const st = badge('b-' + r.status, s.status[r.status] || r.status);
   const v = r.verification || {};
-  const mirrors = (r.mirrors||[]).map(m =>
-    `<div class="mirror"><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.url)}</a><span class="m-meta">${esc(m.region||'')}${m.region?' · ':''}${esc(s.verifiedAt)}${esc(m.last_verified||'')}</span></div>`
+  const mirrors = (r.mirrors || []).map(m =>
+    `<div class="mirror"><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.url)}</a><span class="m-meta">${esc(m.region || '')}${m.region ? ' · ' : ''}${esc(s.verifiedAt)}${esc(m.last_verified || '')}</span></div>`
   ).join('');
-  const risk = r.risk === 'gray-area' ? `<div class="risk">${esc(s.risk)}</div>` : '';
-  const refNote = r.listing_type === 'reference' ? `<div class="evidence">${esc(s.refNote)}</div>` : '';
-  return `<div class="card">
-    <h2>${esc(rname(r))}</h2>
-    <div class="badges">${lt}${st}${badge('b-active', s.cat[r.category]||r.category)}</div>
+  return `<article class="card">
+    <div class="card-top">${monoLetter(r)}
+      <div><h2>${esc(rname(r))}</h2>
+      <div class="badges">${lt}${st}${badge('b-cat', s.cat[r.category] || r.category)}</div></div>
+    </div>
     <p class="desc">${esc(rdesc(r))}</p>
-    ${risk}${refNote}
-    <div class="evidence">${esc(s.evidence)}${esc(v.evidence||'')}（${esc(v.method||'')} · ${esc(v.verified_at||'')}）</div>
+    ${r.risk === 'gray-area' ? `<div class="risk">${esc(s.risk)}</div>` : ''}
+    ${r.listing_type === 'reference' ? `<div class="ref-note">${esc(s.refNote)}</div>` : ''}
+    <div class="evidence">${CHECK_SVG}<div>
+      <div class="ev-label">${esc(s.evLabel)}</div>
+      <div class="ev-text">${esc(v.evidence || '')}</div>
+      <div class="ev-meta">${esc(v.method || '')} · ${esc(v.verified_at || '')}</div>
+    </div></div>
     ${mirrors ? `<div class="mirrors">${mirrors}</div>` : ''}
-    <a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener">${esc(s.visit)}</a>
+    <a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener"><span>${esc(s.visit)}</span>${ARROW_SVG}</a>
   </div>`;
 }
 
 function render(){
   const s = t();
   const q = $('q').value.trim().toLowerCase();
-  const cat = $('cat').value, lt = $('lt').value;
   const list = RES.filter(r => {
-    if (cat && r.category !== cat) return false;
-    if (lt && r.listing_type !== lt) return false;
+    if (CHIP && r.category !== CHIP) return false;
+    if (SEG && r.listing_type !== SEG) return false;
     if (q) {
-      const hay = [r.name, r.name_en, r.description, r.description_en, r.id, (r.tags||[]).join(' ')].join(' ').toLowerCase();
+      const hay = [r.name, r.name_en, r.description, r.description_en, r.id, (r.tags || []).join(' ')].join(' ').toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
   });
-  $('meta').textContent = s.meta(RES.length, list.length);
-  $('grid').innerHTML = list.length ? list.map(card).join('') : `<div class="empty">${esc(s.empty)}</div>`;
+  $('meta').textContent = s.showing(list.length);
+  $('grid').innerHTML = list.length ? list.map(card).join('')
+    : `<div class="empty"><div class="big">🔍</div><div>${esc(s.empty)}</div><div style="margin-top:6px;font-size:13px">${esc(s.emptyHint)}</div></div>`;
+}
+
+function renderChips(){
+  const s = t();
+  const cats = [...new Set(RES.map(r => r.category))];
+  $('chips').innerHTML =
+    `<button class="chip${!CHIP ? ' on' : ''}" data-c="">${esc(s.chipAll)}</button>` +
+    cats.map(c => `<button class="chip${CHIP === c ? ' on' : ''}" data-c="${esc(c)}">${esc(s.cat[c] || c)}</button>`).join('');
+  $('chips').querySelectorAll('.chip').forEach(b =>
+    b.addEventListener('click', () => { CHIP = b.dataset.c; renderChips(); render(); }));
+}
+
+function renderSeg(){
+  const s = t();
+  const opts = [['', s.segAll], ['endorsed', s.segEndorsed], ['reference', s.segReference]];
+  $('seg').innerHTML = opts.map(([v, label]) =>
+    `<button class="${SEG === v ? 'on' : ''}" data-v="${v}">${esc(label)}</button>`).join('');
+  $('seg').querySelectorAll('button').forEach(b =>
+    b.addEventListener('click', () => { SEG = b.dataset.v; renderSeg(); render(); }));
+}
+
+function renderStats(updatedAt){
+  const s = t();
+  const cats = new Set(RES.map(r => r.category)).size;
+  $('stats').innerHTML = [
+    [RES.length, s.statRes], [cats, s.statCat], [updatedAt || '—', s.statUpd]
+  ].map(([v, label]) => `<div class="stat"><b>${esc(v)}</b><span>${esc(label)}</span></div>`).join('');
 }
 
 function applyLang(){
   const s = t();
   document.documentElement.lang = s.htmlLang;
+  document.title = LANG === 'en' ? 'Reliable Resources for Agent' : 'Reliable Resources for Agent — 可信资源库';
+  $('hero-badge').textContent = s.heroBadge;
   $('tagline').textContent = s.tagline;
   $('subtitle').textContent = s.subtitle;
   $('q').placeholder = s.searchPh;
   $('lang-zh').classList.toggle('on', LANG === 'zh');
   $('lang-en').classList.toggle('on', LANG === 'en');
-  // rebuild selects
-  const catSel = $('cat'), ltSel = $('lt');
-  const catVal = catSel.value, ltVal = ltSel.value;
-  catSel.innerHTML = `<option value="">${esc(s.allCat)}</option>`;
-  [...new Set(RES.map(r => r.category))].forEach(c => {
-    const o = document.createElement('option');
-    o.value = c; o.textContent = s.cat[c] || c;
-    catSel.appendChild(o);
-  });
-  catSel.value = catVal;
-  ltSel.innerHTML = `<option value="">${esc(s.allType)}</option>
-    <option value="endorsed">${esc(s.endorsed)}</option>
-    <option value="reference">${esc(s.reference)}</option>`;
-  ltSel.value = ltVal;
-  $('footer').innerHTML = s.footer;
-  render();
+  $('footer').innerHTML = `${s.footerMain}<br>${s.footerSkill}`;
+  renderChips(); renderSeg(); renderStats(window.__updatedAt); render();
 }
 
-function setLang(l){
-  LANG = l;
-  localStorage.setItem('rra-lang', l);
-  applyLang();
-}
-
+function setLang(l){ LANG = l; localStorage.setItem('rra-lang', l); applyLang(); }
 $('lang-zh').addEventListener('click', () => setLang('zh'));
 $('lang-en').addEventListener('click', () => setLang('en'));
 
 fetch('data.json').then(r => r.json()).then(d => {
   RES = d.resources || [];
-  const s = t();
-  $('meta').textContent = s.metaInit(d.updated_at, RES.length);
+  window.__updatedAt = d.updated_at;
   applyLang();
-}).catch(() => { $('grid').innerHTML = `<div class="empty">${esc(t().loadFail)}</div>`; });
+}).catch(() => {
+  $('grid').innerHTML = `<div class="empty"><div class="big">⚠️</div><div>${esc(t().loadFail)}</div></div>`;
+});
 
 $('q').addEventListener('input', render);
-$('cat').addEventListener('change', render);
-$('lt').addEventListener('change', render);
 </script>
 </body>
 </html>
