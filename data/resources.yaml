@@ -237,17 +237,17 @@ resources:
 
   # ---- 以下为模板：新增条目时复制修改 ----
   # ---- Template below: copy and modify when adding a new entry ----
-  # - id: z-library
-  #   name: Z-Library
-  #   name_en: Z-Library
+  # - id: example-mirror-site
+  #   name: 示例镜像站
+  #   name_en: Example Mirror Site
   #   category: ebooks
-  #   description: 全球最大的数字图书馆之一，域名频繁轮换，钓鱼仿冒站极多
-  #   description_en: One of the world's largest digital libraries; domains rotate frequently and phishing clones are rampant
-  #   homepage: https://z-library.sk   # 注意：官方域名会变化，以 official_channels 公告为准
+  #   description: 域名频繁轮换的资源站点（模板示例），钓鱼仿冒站较多
+  #   description_en: A resource site with rotating domains (template example); phishing clones are common
+  #   homepage: https://example-site.example   # 注意：官方域名会变化，以 official_channels 公告为准
   #   official_channels:
-  #     - https://z-library.sk/singlelogin.php  # 官方单点登录页（示例，需核实）
+  #     - https://example-site.example/announcements   # 官方公告页（模板示例，需核实）
   #   mirrors:
-  #     - url: https://example-mirror.example
+  #     - url: https://mirror1.example.net
   #       region: cn-direct
   #       last_verified: 2026-10-05
   #       verified_by: maintainer
@@ -256,7 +256,7 @@ resources:
   #     method: official-announcement
   #     verified_at: 2026-10-05
   #     verified_by: maintainer
-  #     evidence: 官方公告页确认该镜像（示例，需替换为真实依据）
+  #     evidence: 官方公告页确认该镜像（模板示例，需替换为真实依据）
   #   tags: [ebooks, mirrors]
   #   status: active
   #   risk: gray-area

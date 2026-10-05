@@ -18,7 +18,7 @@ resources:
 
 | Field | Required | Description |
 |---|---|---|
-| `id` | yes | Globally unique slug, lowercase with dashes, e.g. `z-library` |
+| `id` | yes | Globally unique slug, lowercase with dashes, e.g. `open-ebooks` |
 | `name` | yes | Display name (Chinese) |
 | `name_en` | no | Display name (English); falls back to `name` when absent |
 | `category` | yes | Category, see below |
@@ -26,7 +26,7 @@ resources:
 | `description_en` | no | One-line English description; falls back to `description` when absent |
 | `listing_type` | yes | Listing tier: `endorsed` (recommended) / `reference` (anti-phishing only), see below |
 | `homepage` | yes | Official homepage (canonical URL); no short links |
-| `official_channels` | no | Official channels: announcement pages, official social accounts, official APIs (e.g. z-lib's `/eapi/info/domains`). Used as the basis for verifying mirrors |
+| `official_channels` | no | Official channels: announcement pages, official social accounts, official APIs (e.g. an official API endpoint that returns the current domain list). Used as the basis for verifying mirrors |
 | `mirrors` | no | Mirror list, see below |
 | `verification` | yes | Verification info, see below |
 | `tags` | no | Tag array for search (use English tags) |
@@ -61,7 +61,7 @@ Both tiers share the same verification bar (`verification` required); they diffe
 
 ### method enum
 
-- `official-domain` — a long-lived stable official domain (e.g. arxiv.org); no frequent re-verification needed
+- `official-domain` — a long-lived stable official domain (e.g. a project's canonical domain); no frequent re-verification needed
 - `official-announcement` — an address or mirror backed by an official channel (announcement / official account / official API)
 - `community-consensus` — no official backing, but maintainer-tested + community cross-verified (e.g. some mirror site)
 - `unverified` entries are not accepted into `main`

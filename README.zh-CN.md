@@ -25,13 +25,13 @@ npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -a clau
 npx skills add https://github.com/Fangwenky/reliable-resources-for-agent --list
 ```
 
-装完重启你的 Agent，然后试一句："Z-Library 最新可用地址是什么？"
+装完重启你的 Agent，然后试一句："我想下载的那个工具，官网是哪个？"
 skill 每次使用时自动拉取最新数据——数据更新无需重装（只有 skill 本体发新版时才需重装，Agent 会主动提醒你）。
 
 ## 为什么做这个
 
 - AI 时代，"官网地址是什么"这类问题的答案经常是错的：搜索引擎前排可能是**钓鱼仿冒站**，AI 也可能**编造**一个看似合理的域名。
-- 很多实用资源的域名频繁变化（如 Z-Library），用户和 Agent 都难以分辨哪个是真的。
+- 有些实用资源的域名频繁变化，用户和 Agent 都难以分辨哪个是真的。
 - 本仓库的核心锚点：**可信可靠**——每一条收录都经过人工审核与官方渠道交叉验证，并持续探活；**双受众**——人类可读，Agent 可直接消费。
 
 ## 信任机制

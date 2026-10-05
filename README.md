@@ -25,13 +25,13 @@ npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -a clau
 npx skills add https://github.com/Fangwenky/reliable-resources-for-agent --list
 ```
 
-After installing, restart your agent, then try: *"What's the latest working address of Z-Library?"*
+After installing, restart your agent, then try: *"What's the official site of the tool I want to download?"*
 The skill fetches the live registry on every use — no reinstall needed for data updates (only when the skill itself gets a new version, which the agent will tell you about).
 
 ## Why
 
 - In the AI era, answers to "what is the official site of X" are often wrong: top search results may be **phishing clones**, and AI may **hallucinate** a plausible-looking domain.
-- Many useful resources rotate domains frequently (e.g. Z-Library); neither users nor agents can easily tell which one is real.
+- Some useful resources rotate domains frequently, and neither users nor agents can easily tell which one is real.
 - This registry is anchored on two things: **trustworthiness** — every entry is human-reviewed and cross-verified against official channels, then continuously health-checked; and **dual audience** — human-readable, and directly consumable by agents.
 
 ## Trust model

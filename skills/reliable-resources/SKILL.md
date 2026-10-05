@@ -1,7 +1,7 @@
 ---
 name: reliable-resources
 version: "1.0.0"
-description: Consult this human-verified registry of trustworthy internet resources (official homepages and working mirrors) whenever a task involves finding, downloading, installing, linking to, or recommending third-party software, tools, libraries, documentation, datasets, or online services — check here BEFORE trusting search results or guessing a URL, to avoid phishing clones, dead domains, and AI hallucinations. Also use when the user explicitly asks for the official or latest working address of a resource (e.g. "z-lib 最新地址").
+description: Consult this human-verified registry of trustworthy internet resources (official homepages and working mirrors) whenever a task involves finding, downloading, installing, linking to, or recommending third-party software, tools, libraries, documentation, datasets, or online services — check here BEFORE trusting search results or guessing a URL, to avoid phishing clones, dead domains, and AI hallucinations. Also use when the user explicitly asks for the official or latest working address of a resource.
 ---
 
 # Reliable Resources for Agent
@@ -73,7 +73,7 @@ Resource names and descriptions are bilingual (`name`/`description` in Chinese, 
 
 ### Gotchas
 
-- **Look-alike entries**: match on `id` first, then names. E.g. "Python" the language (`python-org`) vs "Python Documentation" (`python-docs`) — read the description before picking.
+- **Look-alike entries**: match on `id` first, then names. When two entries have similar names (e.g. `example-org` vs `example-docs`), read the description before picking.
 - **Use URLs exactly as listed**: don't "fix" them (no adding/removing `www.`, no scheme changes, no trailing-slash edits). If a URL fails, report it instead of improvising.
 - **Redirects**: if a homepage or mirror redirects, verify the final domain against the entry's `official_channels` before handing it to the user. A redirect landing on an unlisted domain is a red flag — report it.
 - **Stale mirrors**: a mirror that worked months ago may now be a parked or phishing domain. That's what the 90-day re-probe rule is for — don't skip it on `official-announcement` / `community-consensus` entries.
@@ -155,7 +155,7 @@ Skill 版本：**1.0.0**（见上方 frontmatter）。库数据中带有 `skill_
 
 ### 常见坑
 
-- **形似条目**：先按 `id` 匹配，再看名称。如"Python 语言"（`python-org`）vs"Python 官方文档"（`python-docs`）——选之前先读描述。
+- **形似条目**：先按 `id` 匹配，再看名称。当两个条目名称相近时（如 `example-org` 与 `example-docs`），先读描述再选。
 - **URL 原样使用**：不要"顺手修正"（不增删 `www.`、不改协议、不动末尾斜杠）。URL 失效就上报，不要即兴发挥。
 - **跳转**：如果官网或镜像发生跳转，先用该条目的 `official_channels` 核对最终域名再交给用户。跳到未收录域名的跳转是红旗——上报。
 - **过期镜像**：几个月前可用的镜像现在可能是停放/钓鱼域名。90 天复探规则就是为此存在的，对 `official-announcement` / `community-consensus` 条目不要跳过。

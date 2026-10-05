@@ -18,7 +18,7 @@ resources:
 
 | 字段 | 必填 | 说明 |
 |---|---|---|
-| `id` | 是 | 全局唯一 slug，小写短横线，如 `z-library` |
+| `id` | 是 | 全局唯一 slug，小写短横线，如 `open-ebooks` |
 | `name` | 是 | 显示名（中文） |
 | `name_en` | 否 | 显示名（英文）；缺失时回退到 `name` |
 | `category` | 是 | 分类，见下 |
@@ -26,7 +26,7 @@ resources:
 | `description_en` | 否 | 一句话英文描述；缺失时回退到 `description` |
 | `listing_type` | 是 | 收录层级：`endorsed`（推荐收录）/ `reference`（防伪收录），见下 |
 | `homepage` | 是 | 官方主页（canonical URL），不允许使用短链接 |
-| `official_channels` | 否 | 官方渠道列表：官网公告页、官方社交账号、官方 API（如 z-lib 的 `/eapi/info/domains`）。这是验证镜像的依据 |
+| `official_channels` | 否 | 官方渠道列表：官网公告页、官方社交账号、官方 API（如返回当前域名列表的官方接口）。这是验证镜像的依据 |
 | `mirrors` | 否 | 镜像列表，见下 |
 | `verification` | 是 | 验证信息，见下 |
 | `tags` | 否 | 标签数组，便于检索（请用英文标签） |
@@ -61,7 +61,7 @@ resources:
 
 ### method 枚举
 
-- `official-domain` — 长期稳定的官方域名（如 arxiv.org），无需频繁复验
+- `official-domain` — 长期稳定的官方域名（如项目长期使用的官方主域名），无需频繁复验
 - `official-announcement` — 有官方渠道（公告/官方账号/官方 API）背书的地址或镜像
 - `community-consensus` — 无官方背书，但经维护者实测 + 社区交叉验证（如某镜像站）
 - 不接受 `unverified` 的条目进入主分支
