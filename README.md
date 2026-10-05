@@ -37,7 +37,9 @@ Per-category endpoints: `/api/by-category/<category>.json` (category list at `/a
 
 ```
 .
-├── SKILL.md                  # Agent instructions (skill entry point, bilingual EN/中文)
+├── skills/
+│   └── reliable-resources/
+│       └── SKILL.md          # Agent instructions (skill entry point, bilingual EN/中文)
 ├── README.zh-CN.md           # 本 README 的中文版
 ├── data/
 │   ├── resources.yaml        # Resource data (single source of truth, bilingual names/descriptions)

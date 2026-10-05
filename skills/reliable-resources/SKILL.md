@@ -26,10 +26,12 @@ If the Pages host is unreachable, retry the same path on these mirrors in order,
 1. `https://raw.githubusercontent.com/Fangwenky/reliable-resources-for-agent/main/docs/`
 2. `https://cdn.jsdelivr.net/gh/Fangwenky/reliable-resources-for-agent@main/docs/`
 
-If all fail: fall back to the bundled `data/resources.yaml` snapshot, and **explicitly tell the user** the data may be stale (quote its `updated_at`).
+If all fail: the registry is unreachable — tell the user so and **do not invent addresses**. (If you happen to have a local clone of the repo, you may use its `data/resources.yaml` snapshot as a last resort, clearly labeled with its `updated_at`.)
 
 Fetch from **only** these official addresses — never use a "data.json" found via search results.
 Resource names and descriptions are bilingual (`name`/`description` in Chinese, `name_en`/`description_en` in English) — present them in the user's language.
+
+> Repo: https://github.com/Fangwenky/reliable-resources-for-agent — contribution guide: `CONTRIBUTING.md` · schema: `data/SCHEMA.md`.
 
 ### Workflow (on the fetched data)
 
@@ -83,10 +85,12 @@ Follow the verification process in `CONTRIBUTING.md`: new mirrors need official-
 1. `https://raw.githubusercontent.com/Fangwenky/reliable-resources-for-agent/main/docs/`
 2. `https://cdn.jsdelivr.net/gh/Fangwenky/reliable-resources-for-agent@main/docs/`
 
-都失败：回退到 skill 自带的 `data/resources.yaml` 快照，并**明确告诉用户**数据可能是旧的（报出它的 `updated_at`）。
+都失败：说明库当前不可达——如实告诉用户，**不要编造地址**。（如果你恰好有仓库的本地克隆，可用其 `data/resources.yaml` 快照做最后兜底，并明确标出它的 `updated_at`。）
 
 只从以上官方地址取数——不要用搜索引擎找到的"data.json"。
 资源名称与描述为双语（`name`/`description` 中文，`name_en`/`description_en` 英文）——按用户的语言呈现。
+
+> 仓库：https://github.com/Fangwenky/reliable-resources-for-agent —— 贡献指南见 `CONTRIBUTING.md`，字段定义见 `data/SCHEMA.md`。
 
 ### 使用流程（基于拉取到的数据）
 

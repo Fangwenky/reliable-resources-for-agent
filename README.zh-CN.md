@@ -36,7 +36,9 @@ Claude Code 等支持 skills 的 Agent 可直接把本仓库加入 skill 目录�
 
 ```
 .
-├── SKILL.md                  # Agent 使用说明（skill 入口，中英双语）
+├── skills/
+│   └── reliable-resources/
+│       └── SKILL.md          # Agent 使用说明（skill 入口，中英双语）
 ├── README.md                 # English version
 ├── data/
 │   ├── resources.yaml        # 资源数据（single source of truth，名称/描述中英双语）
