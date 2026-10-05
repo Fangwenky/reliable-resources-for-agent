@@ -7,8 +7,10 @@
     {
       "id": "arxiv",
       "name": "arXiv",
+      "name_en": "arXiv",
       "category": "academic",
       "description": "开放获取的学术论文预印本库，覆盖物理、数学、计算机等领域",
+      "description_en": "Open-access preprint repository for physics, mathematics, computer science and more",
       "listing_type": "endorsed",
       "homepage": "https://arxiv.org",
       "official_channels": [
@@ -31,8 +33,10 @@
     {
       "id": "mdn-web-docs",
       "name": "MDN Web Docs",
+      "name_en": "MDN Web Docs",
       "category": "dev-tools",
       "description": "权威的 Web 开发文档（HTML/CSS/JavaScript/Web API）",
+      "description_en": "Authoritative web development documentation (HTML/CSS/JavaScript/Web APIs)",
       "listing_type": "endorsed",
       "homepage": "https://developer.mozilla.org",
       "official_channels": [
@@ -55,8 +59,10 @@
     {
       "id": "python-docs",
       "name": "Python 官方文档",
+      "name_en": "Python Documentation",
       "category": "dev-tools",
       "description": "Python 语言官方文档（教程、标准库、语言参考）",
+      "description_en": "Official Python documentation (tutorial, standard library, language reference)",
       "listing_type": "endorsed",
       "homepage": "https://docs.python.org",
       "official_channels": [
@@ -78,8 +84,10 @@
     {
       "id": "python-org",
       "name": "Python 官网",
+      "name_en": "Python.org",
       "category": "dev-tools",
       "description": "Python 编程语言官方网站（下载、文档、社区）",
+      "description_en": "Official Python programming language website (downloads, docs, community)",
       "listing_type": "endorsed",
       "homepage": "https://www.python.org",
       "official_channels": [
@@ -102,8 +110,10 @@
     {
       "id": "kernel-org",
       "name": "Linux Kernel 官网",
+      "name_en": "Linux Kernel Archives",
       "category": "dev-tools",
       "description": "Linux 内核官方网站（源码下载、文档、版本发布）",
+      "description_en": "Official Linux kernel website (source downloads, documentation, releases)",
       "listing_type": "endorsed",
       "homepage": "https://www.kernel.org",
       "official_channels": [
@@ -126,8 +136,10 @@
     {
       "id": "gnu-org",
       "name": "GNU 官网",
+      "name_en": "GNU.org",
       "category": "dev-tools",
       "description": "GNU 项目官方网站（自由软件、工具链文档）",
+      "description_en": "Official GNU Project website (free software, toolchain documentation)",
       "listing_type": "endorsed",
       "homepage": "https://www.gnu.org",
       "official_channels": [
@@ -150,8 +162,10 @@
     {
       "id": "pypi",
       "name": "PyPI",
+      "name_en": "PyPI",
       "category": "dev-tools",
       "description": "Python 官方包索引（pip install 的默认源）",
+      "description_en": "Official Python package index (the default source for pip install)",
       "listing_type": "endorsed",
       "homepage": "https://pypi.org",
       "official_channels": [
@@ -174,8 +188,10 @@
     {
       "id": "git-scm",
       "name": "Git 官网",
+      "name_en": "Git",
       "category": "dev-tools",
       "description": "Git 版本控制系统官方网站（下载、文档、教程）",
+      "description_en": "Official Git version control website (downloads, docs, tutorials)",
       "listing_type": "endorsed",
       "homepage": "https://git-scm.com",
       "official_channels": [
@@ -198,8 +214,10 @@
     {
       "id": "nodejs",
       "name": "Node.js 官网",
+      "name_en": "Node.js",
       "category": "dev-tools",
       "description": "Node.js 运行时官方网站（下载、文档、版本发布）",
+      "description_en": "Official Node.js runtime website (downloads, docs, releases)",
       "listing_type": "endorsed",
       "homepage": "https://nodejs.org",
       "official_channels": [
@@ -222,8 +240,10 @@
     {
       "id": "debian",
       "name": "Debian 官网",
+      "name_en": "Debian",
       "category": "dev-tools",
       "description": "Debian GNU/Linux 发行版官方网站",
+      "description_en": "Official Debian GNU/Linux distribution website",
       "listing_type": "endorsed",
       "homepage": "https://www.debian.org",
       "official_channels": [
@@ -246,8 +266,10 @@
     {
       "id": "wikipedia",
       "name": "维基百科",
+      "name_en": "Wikipedia",
       "category": "other",
       "description": "自由的百科全书，由维基媒体基金会（非营利）运营",
+      "description_en": "The free encyclopedia, operated by the non-profit Wikimedia Foundation",
       "listing_type": "endorsed",
       "homepage": "https://www.wikipedia.org",
       "official_channels": [
@@ -269,8 +291,10 @@
     {
       "id": "archive-org",
       "name": "Internet Archive",
+      "name_en": "Internet Archive",
       "category": "other",
       "description": "互联网档案馆（网页时光机、开放图书/影音典藏），非营利数字图书馆",
+      "description_en": "Non-profit digital library (Wayback Machine, open books and media collections)",
       "listing_type": "endorsed",
       "homepage": "https://archive.org",
       "official_channels": [

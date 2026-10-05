@@ -1,76 +1,79 @@
-# Reliable Resources for Agent — 数据 Schema（v1）
+# Reliable Resources for Agent — Data Schema (v1)
 
-本仓库的 single source of truth 是 `data/resources.yaml`。
-人类可读，Agent 可解析，CI 可校验。
+The single source of truth of this repo is `data/resources.yaml`.
+Human-readable, agent-parseable, CI-validatable.
 
-## 顶层结构
+> 🌐 中文版：[SCHEMA.zh-CN.md](SCHEMA.zh-CN.md)
+
+## Top-level structure
 
 ```yaml
 version: 1
-updated_at: 2026-10-05   # 最后一次人工/CI 更新日期
+updated_at: 2026-10-05   # last human/CI update date
 resources:
-  - <resource>           # 见下
+  - <resource>           # see below
 ```
 
-## resource 字段
+## resource fields
 
-| 字段 | 必填 | 说明 |
+| Field | Required | Description |
 |---|---|---|
-| `id` | 是 | 全局唯一 slug，小写短横线，如 `z-library` |
-| `name` | 是 | 显示名 |
-| `category` | 是 | 分类，见下 |
-| `description` | 是 | 一句话中文描述，说明这是什么、解决什么问题 |
-| `listing_type` | 是 | 收录层级：`endorsed`（推荐收录）/ `reference`（防伪收录），见下 |
-| `homepage` | 是 | 官方主页（canonical URL），不允许使用短链接 |
-| `official_channels` | 否 | 官方渠道列表：官网公告页、官方社交账号、官方 API（如 z-lib 的 `/eapi/info/domains`）。这是验证镜像的依据 |
-| `mirrors` | 否 | 镜像列表，见下 |
-| `verification` | 是 | 验证信息，见下 |
-| `tags` | 否 | 标签数组，便于检索 |
-| `status` | 是 | `active` / `degraded` / `dead` |
-| `risk` | 否 | `none`（默认）/ `gray-area`（涉及版权等灰色地带，需在描述中说明） |
+| `id` | yes | Globally unique slug, lowercase with dashes, e.g. `z-library` |
+| `name` | yes | Display name (Chinese) |
+| `name_en` | no | Display name (English); falls back to `name` when absent |
+| `category` | yes | Category, see below |
+| `description` | yes | One-line Chinese description: what it is, what problem it solves |
+| `description_en` | no | One-line English description; falls back to `description` when absent |
+| `listing_type` | yes | Listing tier: `endorsed` (recommended) / `reference` (anti-phishing only), see below |
+| `homepage` | yes | Official homepage (canonical URL); no short links |
+| `official_channels` | no | Official channels: announcement pages, official social accounts, official APIs (e.g. z-lib's `/eapi/info/domains`). Used as the basis for verifying mirrors |
+| `mirrors` | no | Mirror list, see below |
+| `verification` | yes | Verification info, see below |
+| `tags` | no | Tag array for search (use English tags) |
+| `status` | yes | `active` / `degraded` / `dead` |
+| `risk` | no | `none` (default) / `gray-area` (copyright/compliance gray area, must be explained in the description) |
 
-## listing_type：双层收录
+## listing_type: two tiers
 
-- `endorsed`（推荐收录）：符合本仓库开源精神与价值观、值得向用户推荐的站点。人类浏览时优先展示，Agent 可主动推荐。
-- `reference`（防伪收录）：仅提供官方地址用于辨认真伪、防范钓鱼，**不做任何推荐背书**，展示时明确标注"仅防伪"。适用于大厂产品等"暂不收录"但仿冒高发的站点。
+- `endorsed` (recommended): sites aligned with this registry's open-source spirit and values, worth recommending. Shown first for humans; agents may proactively recommend them.
+- `reference` (anti-phishing): official address provided only for telling real from fake and preventing phishing — **no endorsement whatsoever**, clearly labeled "reference only". For big-tech products and other high-impersonation-risk sites.
 
-两层共用同一套验证标准（verification 必填），区别只在是否推荐。
+Both tiers share the same verification bar (`verification` required); they differ only in whether we recommend them.
 
-## mirror 字段
+## mirror fields
 
-| 字段 | 必填 | 说明 |
+| Field | Required | Description |
 |---|---|---|
-| `url` | 是 | 镜像 URL，不允许短链接、跳转链接 |
-| `region` | 否 | 可用地区标注，如 `cn-direct`（国内直连）、`global`、`needs-proxy` |
-| `last_verified` | 是 | 最后一次验证可用日期 `YYYY-MM-DD` |
-| `verified_by` | 是 | `maintainer` 或 GitHub 用户名 |
-| `note` | 否 | 备注，如"跳转到 xxx，后端会轮换" |
+| `url` | yes | Mirror URL; no short or redirect links |
+| `region` | no | Region hint, e.g. `cn-direct` (direct from China), `global`, `needs-proxy` |
+| `last_verified` | yes | Last verified-working date `YYYY-MM-DD` |
+| `verified_by` | yes | `maintainer` or a GitHub username |
+| `note` | no | Notes, e.g. "redirects to xxx; backend rotates" |
 
-## verification 字段
+## verification fields
 
-| 字段 | 必填 | 说明 |
+| Field | Required | Description |
 |---|---|---|
-| `method` | 是 | 验证方式，见下 |
-| `verified_at` | 是 | 验证日期 `YYYY-MM-DD` |
-| `verified_by` | 是 | `maintainer` 或 GitHub 用户名 |
-| `evidence` | 是 | 验证依据的一句话说明，如"官网公告页 2026-09-01 确认该域名" |
+| `method` | yes | Verification method, see below |
+| `verified_at` | yes | Verification date `YYYY-MM-DD` |
+| `verified_by` | yes | `maintainer` or a GitHub username |
+| `evidence` | yes | One-line basis of trust, e.g. "official announcement page confirmed this domain on 2026-09-01" (may be written in the contributor's own language) |
 
-### method 枚举
+### method enum
 
-- `official-domain` — 长期稳定的官方域名（如 arxiv.org），无需频繁复验
-- `official-announcement` — 有官方渠道（公告/官方账号/官方 API）背书的地址或镜像
-- `community-consensus` — 无官方背书，但经维护者实测 + 社区交叉验证（如某镜像站）
-- 不接受 `unverified` 的条目进入主分支
+- `official-domain` — a long-lived stable official domain (e.g. arxiv.org); no frequent re-verification needed
+- `official-announcement` — an address or mirror backed by an official channel (announcement / official account / official API)
+- `community-consensus` — no official backing, but maintainer-tested + community cross-verified (e.g. some mirror site)
+- `unverified` entries are not accepted into `main`
 
-## category 枚举（初始）
+## category enum (initial)
 
-`academic` 学术 / `ebooks` 电子书 / `dev-tools` 开发工具 / `ai-tools` AI 工具 /
-`media` 影音 / `dataset` 数据集 / `mirror` 镜像站 / `other` 其他
+`academic` / `ebooks` / `dev-tools` / `ai-tools` / `media` / `dataset` / `mirror` / `other`
 
-新增分类需在 PR 中说明理由，由维护者批准。
+New categories need a justification in the PR and maintainer approval.
 
-## 状态流转
+## Status lifecycle
 
-- `active` → 连续 2 次 CI 探活失败 → `degraded`（仍展示，带警告）
-- `degraded` → 人工复验失败 → `dead`（移出默认展示，进入归档）
-- 任何 `dead` 的 URL 不得直接删除，保留记录以便追溯钓鱼仿冒
+- `active` → 2 consecutive CI health-check failures → `degraded` (still shown, with a warning)
+- `degraded` → manual re-verification fails → `dead` (removed from default view, archived)
+- A `dead` URL must never be deleted outright; keep the record for tracing phishing impersonation

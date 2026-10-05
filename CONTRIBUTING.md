@@ -1,56 +1,62 @@
-# 贡献指南
+# Contributing
 
-欢迎贡献！本仓库的价值完全建立在**可信**上，因此收录标准比一般的 awesome-list 更严格。
+Welcome! This registry's entire value rests on **trust**, so its listing bar is higher than a typical awesome-list.
 
-## 收录哲学
+> 🌐 中文版：[CONTRIBUTING.zh-CN.md](CONTRIBUTING.zh-CN.md)
 
-本仓库的收录标准不只是"真不真"，还有"值不值得"：
+## Listing philosophy
 
-**优先收录**：具有互联网开源精神的长期项目——开放、由社区或非营利组织维护、创作者与用户直接受益。如 Python、Linux 内核、维基百科、Internet Archive。这是第一批建设的重点。
+Our bar is not just "is it real", but "is it worth listing":
 
-**暂不收录**：大型互联网公司的自有产品与服务。它们不缺用户、不缺宣传渠道，收录它们对"可信"没有增量价值。未来若项目获得足够影响力、官方主动寻求合作，再以合作形式收录（并可探索收益）。
-例外是**防伪收录**（`listing_type: reference`）：大品牌恰恰是钓鱼仿冒的重灾区，因此允许以"仅提供官方地址、不做推荐背书"的方式收录，用于帮用户和 Agent 辨认真伪。展示时必须明确标注"仅防伪"。
+**Prefer**: long-lived projects with an open-internet spirit — open, maintained by a community or non-profit, where creators and users benefit directly. E.g. Python, the Linux kernel, Wikipedia, Internet Archive. This is the focus of the first batch.
 
-**永不收录**：靠垄断攫取价值的中间商——剽窃或无偿聚合创作者内容、形成信息垄断、而真正的创作者没有获得收益的站点。判断时看三点：
-- 创作者是否从中直接获益（分成、署名、流量回流）；
-- 是否存在开放替代（开源、开放 API、数据可迁移）；
-- 是否制造锁定（lock-in）而非互操作。
+**Not yet**: products and services owned by large internet companies. They lack neither users nor marketing channels, so listing them adds no trust value. If the project gains enough influence and an official team seeks collaboration, we can list them as partners (and explore revenue).
+The exception is **anti-phishing listings** (`listing_type: reference`): big brands are exactly where phishing clones thrive, so we allow listing them as "official address only, no endorsement" to help users and agents tell real from fake. They must be clearly labeled "reference only".
 
-一句话版：用户在为好服务买单的，收；被迫在为垄断买单的，不收。
+**Never**: middlemen that extract value through monopoly — sites that plagiarize or freely aggregate creators' content, build information monopolies, while the actual creators earn nothing. Judge by three questions:
+- Do creators benefit directly (revenue share, attribution, traffic back)?
+- Is there an open alternative (open source, open API, data portability)?
+- Does it create lock-in rather than interoperability?
 
-## 可以贡献什么
+One-liner: if users are paying for a good service, list it; if they're forced to pay for a monopoly, don't.
 
-- 新增可信资源条目（按 `data/SCHEMA.md` 填写）
-- 为已有资源补充/更新镜像（域名轮换时最需要这个）
-- 报告失效链接、钓鱼仿冒站（提 issue 即可，不必 PR）
+## What you can contribute
 
-## 收录标准（必须全部满足）
+- New trustworthy resource entries (fill in per `data/SCHEMA.md`)
+- New/updated mirrors for existing resources (most needed when domains rotate)
+- Report dead links and phishing clones (open an issue — no PR needed)
 
-1. **真实性**：资源本身真实存在且有明确的官方来源。
-2. **验证依据**：`verification` 字段完整，`method` 只能是以下三者之一：
-   - `official-domain`：长期稳定的官方域名
-   - `official-announcement`：有官方渠道背书（官网公告、官方社交账号、官方 API 返回的域名列表等），PR 描述中必须贴出依据链接或截图
-   - `community-consensus`：无官方背书时，需维护者实测可用 + 至少一个独立交叉验证来源
-3. **不接受 `unverified` 条目**进入主分支。
-4. **URL 规范**：不允许短链接、跳转链接、带追踪参数的推广链接。
+## Listing criteria (all required)
 
-## 防投毒规则（针对镜像类 PR，重点）
+1. **Authenticity**: the resource genuinely exists with a clear official source.
+2. **Evidence**: the `verification` field is complete, and `method` must be one of:
+   - `official-domain`: a long-lived stable official domain
+   - `official-announcement`: backed by an official channel (announcement page, official social account, official API returning domain lists, etc.) — the PR description must link the evidence or attach a screenshot
+   - `community-consensus`: without official backing, requires maintainer testing + at least one independent cross-verification source
+3. No `unverified` entries enter `main`.
+4. **URL rules**: no short links, redirect links, or tracking-laden affiliate links.
 
-这是本仓库最核心的安全红线，因为攻击者最有动机的行为就是把钓鱼站"捐"进来：
+## Anti-poisoning rules (for mirror PRs — the critical part)
 
-- 新增镜像必须说明**它与官方的关系**（官方公告/官方账号发布/官方 API 列出，三选一，贴依据）。
-- 仅"能打开、长得像官网"**不是**收录理由——钓鱼站也能做到。
-- 维护者会对镜像做二次独立验证（换网络环境探活、核对 TLS 证书主体、核对官方渠道）。
-- 灰色地带资源（如涉及版权的站点）必须标注 `risk: gray-area`，并在描述中说明风险；这类 PR 需要维护者明确批准。
+This is the repo's core security red line, because the most motivated attacker behavior is "donating" a phishing site:
 
-## PR 流程
+- A new mirror must state **its relationship to the official source** (official announcement / official account post / listed by official API — one of the three, with evidence linked).
+- "It opens and looks like the official site" is **not** a listing reason — phishing sites can do that too.
+- Maintainers independently re-verify mirrors (probe from a different network, check the TLS certificate subject, cross-check official channels).
+- Gray-area resources (e.g. sites involving copyrighted content) must be marked `risk: gray-area` with the risk explained in the description; such PRs need explicit maintainer approval.
 
-1. Fork 本仓库，按 `data/SCHEMA.md` 在 `data/resources.yaml` 中添加/修改条目。
-2. 本地运行 `python scripts/check_links.py --only <resource-id>` 确认 URL 可达。
-3. 提交 PR，描述中写清：新增/修改了什么、验证依据是什么（贴链接）。
-4. CI 探活通过 + 维护者审核通过 → 合并。
+## Bilingual entries
 
-## 报告问题
+Resource names and descriptions are bilingual: `name` / `description` (Chinese) and `name_en` / `description_en` (English). When adding an entry, please provide both; if you can only write one language, fill that one in and leave the other out — it falls back automatically. Evidence notes (`verification.evidence`, mirror `note`) may stay in the contributor's own language.
 
-- 链接失效：提 issue，标题格式 `[dead] <资源id> - <失效URL>`。
-- 发现钓鱼仿冒：提 issue，标题格式 `[phishing] <仿冒域名>`，附上仿冒证据（截图/手法描述）。核实后会记入对应资源的 `note` 做警示。
+## PR process
+
+1. Fork this repo and add/edit entries in `data/resources.yaml` per `data/SCHEMA.md`.
+2. Run `python scripts/check_links.py --only <resource-id>` locally to confirm the URLs are reachable.
+3. Open a PR describing: what was added/changed and what the verification evidence is (with links).
+4. CI health-check passes + maintainer review passes → merged.
+
+## Reporting issues
+
+- Dead link: open an issue titled `[dead] <resource-id> - <dead-URL>`.
+- Phishing clone found: open an issue titled `[phishing] <clone-domain>` with evidence (screenshot / technique description). Once confirmed it is recorded in the resource's `note` as a warning.
