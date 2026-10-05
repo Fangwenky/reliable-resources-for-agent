@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Reliable Resources for Agent — 人工审核、持续验证的可信互联网资源库，防钓鱼，同时服务人类用户与 AI Agent。Human-reviewed, continuously verified registry of trustworthy internet resources.">
 <title>Reliable Resources for Agent — 可信资源库</title>
 <style>
   :root {
@@ -132,6 +133,12 @@
   .bb-btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
   .bb-btn.primary:hover { background:#03644b; }
 
+  button:focus-visible, a:focus-visible, input:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    *, *::before, *::after { transition:none !important; }
+  }
+
   @media (max-width:640px) {
     .brand span { display:none; }
     .nav-link { display:none; }
@@ -145,14 +152,14 @@
 <nav class="topnav">
   <div class="topnav-inner">
     <a class="brand" href="#top">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
       <span>Reliable Resources</span>
     </a>
     <div class="nav-actions">
       <div class="nav-dropdown" id="nav-dropdown">
         <button class="nav-cat-btn" id="cat-btn" aria-haspopup="true" aria-expanded="false">
           <span id="cat-btn-label"></span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="dropdown" id="dropdown" hidden></div>
       </div>
@@ -175,8 +182,8 @@
 
 <div class="filters">
   <div class="search-box">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-    <input id="q" type="search" autocomplete="off">
+    <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="q" type="search" autocomplete="off" aria-label="search">
   </div>
   <div class="seg" id="seg"></div>
 </div>
@@ -200,13 +207,14 @@
 let RES = [];
 let LANG = localStorage.getItem('rra-lang') || 'zh';
 let SEG = '';
+let UPDATED_AT = '';
 const EXPANDED = new Set();
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const REPO = 'https://github.com/Fangwenky/reliable-resources-for-agent';
 
-const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
-const ARROW_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const CHECK_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
+const ARROW_SVG = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
 const CAT_COLOR = {
   academic:['#ede9fe','#6d28d9'], ebooks:['#fef3c7','#b45309'], 'dev-tools':['#dbeafe','#1d4ed8'],
@@ -220,6 +228,7 @@ const STR = {
     tagline: '不信我，信证据。',
     subtitle: '每一条收录都经过人工审核与官方渠道交叉验证，并持续探活 —— 同时服务人类用户与 AI Agent。',
     searchPh: '搜索资源名称、描述、标签…（中英文皆可）',
+    searchLabel: '搜索资源',
     navCat: '分类',
     navAll: '全部资源',
     segAll: '全部', segEndorsed: '推荐', segReference: '防伪',
@@ -249,6 +258,7 @@ const STR = {
     tagline: "Don't trust me. Trust the evidence.",
     subtitle: 'Every entry is human-reviewed, cross-verified against official channels, and continuously health-checked — for humans and AI agents alike.',
     searchPh: 'Search name, description, tags… (EN/中文)',
+    searchLabel: 'Search resources',
     navCat: 'Categories',
     navAll: 'All resources',
     segAll: 'All', segEndorsed: 'Endorsed', segReference: 'Reference',
@@ -312,7 +322,7 @@ function card(r){
     </div></div>
     ${mirrors ? `<div class="mirrors">${mirrors}</div>` : ''}
     <a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener"><span>${esc(s.visit)}</span>${ARROW_SVG}</a>
-  </div>`;
+  </article>`;
 }
 
 function sectionHTML(c){
@@ -422,6 +432,7 @@ function applyLang(){
   $('tagline').textContent = s.tagline;
   $('subtitle').textContent = s.subtitle;
   $('q').placeholder = s.searchPh;
+  $('q').setAttribute('aria-label', s.searchLabel);
   $('lang-zh').classList.toggle('on', LANG === 'zh');
   $('lang-en').classList.toggle('on', LANG === 'en');
   $('footer').innerHTML = s.footer;
@@ -429,7 +440,7 @@ function applyLang(){
   $('bb-submit').textContent = s.bbSubmit;
   $('bb-submit').href = s.contributingUrl;
   $('bb-report').textContent = s.bbReport;
-  renderSeg(); renderDropdown(); renderStats(window.__updatedAt); render();
+  renderSeg(); renderDropdown(); renderStats(UPDATED_AT); render();
 }
 
 function setLang(l){ LANG = l; localStorage.setItem('rra-lang', l); applyLang(); }
@@ -447,7 +458,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDropdow
 
 fetch('data.json').then(r => r.json()).then(d => {
   RES = d.resources || [];
-  window.__updatedAt = d.updated_at;
+  UPDATED_AT = d.updated_at;
   applyLang();
 }).catch(() => {
   $('sections').hidden = true; $('grid').hidden = false;
