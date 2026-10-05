@@ -1,5 +1,7 @@
 # Reliable Resources for Agent
 
+**让 AI 可靠，让信息安全。**
+
 一个**人工审核、持续验证**的互联网可信资源库——同时服务人类用户和 AI Agent。
 
 > 🌐 English version: [README.md](README.md)

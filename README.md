@@ -1,5 +1,7 @@
 # Reliable Resources for Agent
 
+**Reliable AI, Secure Information.**
+
 A **human-reviewed, continuously verified** registry of trustworthy internet resources — for humans and AI agents alike.
 
 > 🌐 中文版：[README.zh-CN.md](README.zh-CN.md)
