@@ -30,6 +30,7 @@ skill 每次使用时会从 `https://fangwenky.github.io/reliable-resources-for-
 Claude Code 等支持 skills 的 Agent 可直接把本仓库加入 skill 目录。
 
 **Agent 数据接口**（不装 skill 也能用）：`https://fangwenky.github.io/reliable-resources-for-agent/data.json`，看 `updated_at` 判断新鲜度。
+按分类取数：`/api/by-category/<category>.json`（分类列表见 `/api/index.json`）。
 
 ## 仓库结构
 
@@ -43,7 +44,10 @@ Claude Code 等支持 skills 的 Agent 可直接把本仓库加入 skill 目录�
 │   └── SCHEMA.zh-CN.md       # 数据字段定义与状态流转规则（中文）
 ├── docs/
 │   ├── index.html            # 静态站点（GitHub Pages，中文/EN 切换）
-│   └── data.json             # 由 scripts/build_site.py 自动生成，请勿手改
+│   ├── data.json             # 由 scripts/build_site.py 自动生成，请勿手改
+│   └── api/
+│       ├── index.json        # 分类列表（自动生成）
+│       └── by-category/      # 按分类拆分的数据文件（自动生成）
 ├── scripts/
 │   ├── check_links.py        # URL 探活脚本（CI 调用）
 │   └── build_site.py         # resources.yaml → docs/data.json

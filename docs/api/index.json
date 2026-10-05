@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "categories": [
+    "academic",
+    "dev-tools",
+    "other"
+  ],
+  "counts": {
+    "academic": 1,
+    "dev-tools": 9,
+    "other": 2
+  }
+}

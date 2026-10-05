@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "category": "other",
+  "count": 2,
+  "resources": [
+    {
+      "id": "wikipedia",
+      "name": "维基百科",
+      "name_en": "Wikipedia",
+      "category": "other",
+      "description": "自由的百科全书，由维基媒体基金会（非营利）运营",
+      "description_en": "The free encyclopedia, operated by the non-profit Wikimedia Foundation",
+      "listing_type": "endorsed",
+      "homepage": "https://www.wikipedia.org",
+      "official_channels": [
+        "https://www.wikipedia.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "encyclopedia",
+        "open-knowledge"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "archive-org",
+      "name": "Internet Archive",
+      "name_en": "Internet Archive",
+      "category": "other",
+      "description": "互联网档案馆（网页时光机、开放图书/影音典藏），非营利数字图书馆",
+      "description_en": "Non-profit digital library (Wayback Machine, open books and media collections)",
+      "listing_type": "endorsed",
+      "homepage": "https://archive.org",
+      "official_channels": [
+        "https://archive.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "archive",
+        "open-knowledge"
+      ],
+      "status": "active"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "category": "academic",
+  "count": 1,
+  "resources": [
+    {
+      "id": "arxiv",
+      "name": "arXiv",
+      "name_en": "arXiv",
+      "category": "academic",
+      "description": "开放获取的学术论文预印本库，覆盖物理、数学、计算机等领域",
+      "description_en": "Open-access preprint repository for physics, mathematics, computer science and more",
+      "listing_type": "endorsed",
+      "homepage": "https://arxiv.org",
+      "official_channels": [
+        "https://arxiv.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "papers",
+        "preprints",
+        "open-access"
+      ],
+      "status": "active"
+    }
+  ]
+}

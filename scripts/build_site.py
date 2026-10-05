@@ -6,6 +6,7 @@
 
 import argparse
 import json
+import os
 import sys
 from datetime import date
 
@@ -37,18 +38,46 @@ def main() -> None:
         data = yaml.safe_load(f)
 
     resources = data.get("resources", [])
-    payload = to_jsonable(
-        {
-            "version": data.get("version", 1),
-            "updated_at": data.get("updated_at", date.today().isoformat()),
-            "generated_at": date.today().isoformat(),
-            "count": len(resources),
-            "resources": resources,
-        }
-    )
+    today = date.today().isoformat()
+    base = {
+        "version": data.get("version", 1),
+        "updated_at": data.get("updated_at", today),
+        "generated_at": today,
+    }
+
+    # 全量数据
+    payload = to_jsonable({**base, "count": len(resources), "resources": resources})
     with open(args.out, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2)
     print(f"wrote {args.out} ({len(resources)} resources)")
+
+    # 按分类拆分：Agent 按需拉取，避免全量传输
+    out_dir = os.path.dirname(os.path.abspath(args.out))
+    api_dir = os.path.join(out_dir, "api", "by-category")
+    os.makedirs(api_dir, exist_ok=True)
+
+    by_cat: dict[str, list] = {}
+    for r in resources:
+        by_cat.setdefault(r.get("category") or "other", []).append(r)
+
+    for cat in sorted(by_cat):
+        rs = by_cat[cat]
+        cat_payload = to_jsonable(
+            {**base, "category": cat, "count": len(rs), "resources": rs}
+        )
+        cat_path = os.path.join(api_dir, f"{cat}.json")
+        with open(cat_path, "w", encoding="utf-8") as f:
+            json.dump(cat_payload, f, ensure_ascii=False, indent=2)
+        print(f"wrote {cat_path} ({len(rs)} resources)")
+
+    # 分类索引
+    index_payload = to_jsonable(
+        {**base, "categories": sorted(by_cat), "counts": {c: len(v) for c, v in sorted(by_cat.items())}}
+    )
+    index_path = os.path.join(out_dir, "api", "index.json")
+    with open(index_path, "w", encoding="utf-8") as f:
+        json.dump(index_payload, f, ensure_ascii=False, indent=2)
+    print(f"wrote {index_path} ({len(by_cat)} categories)")
 
 
 if __name__ == "__main__":
