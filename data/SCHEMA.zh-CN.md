@@ -26,6 +26,7 @@ resources:
 | `description_en` | 否 | 一句话英文描述；缺失时回退到 `description` |
 | `listing_type` | 是 | 收录层级：`endorsed`（推荐收录）/ `reference`（防伪收录），见下 |
 | `homepage` | 是 | 官方主页（canonical URL），不允许使用短链接 |
+| `probe_url` | 否 | 探活覆盖地址（可选）：当首页反爬虫、但官方 API/页面是更可靠的存活信号时，探活改为检查该 URL |
 | `official_channels` | 否 | 官方渠道列表：官网公告页、官方社交账号、官方 API（如返回当前域名列表的官方接口）。这是验证镜像的依据 |
 | `mirrors` | 否 | 镜像列表，见下 |
 | `verification` | 是 | 验证信息，见下 |

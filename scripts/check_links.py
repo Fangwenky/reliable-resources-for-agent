@@ -8,7 +8,7 @@
     --state data/link-health.json   启用失败计数持久化（文件不存在则新建）
     --apply-degrade                 达到阈值时自动把 resources.yaml 对应条目标记 degraded
 规则：
-  - homepage 连续 2 次探活失败  →  status: active → degraded
+  - homepage 连续 2 次探活失败  →  status: active → degraded（同时同步顶层 updated_at）
   - mirror 失败只记录进 state，不触发整站降级（镜像坏了不代表主站坏了）
   - 探活成功则清零该 URL 的失败计数；degraded → active 的恢复必须人工操作（防抖动）
   - status 已是 degraded/dead 的条目仍会被探活（用于计数清零），但不再自动改状态
@@ -48,12 +48,19 @@ except ImportError:
 
 DEGRADE_THRESHOLD = 2  # homepage 连续失败达到此次数 → degraded
 
+# 用浏览器 UA 做探活：部分站点会拦截非浏览器 UA 的请求导致误判。
+# 探活仍只做可达性检查，不伪装成真实用户行为。
+PROBE_UA = (
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+)
+
 
 def check_url(url: str, timeout: int) -> dict:
     """返回 {'url', 'ok', 'status', 'final_url', 'error'}。"""
     req = urllib.request.Request(
         url,
-        headers={"User-Agent": "reliable-resources-linkcheck/1.0"},
+        headers={"User-Agent": PROBE_UA},
         method="HEAD",
     )
     try:
@@ -69,7 +76,7 @@ def check_url(url: str, timeout: int) -> dict:
         # HEAD 被拒时降级为 GET（有些站点不支持 HEAD）
         try:
             req = urllib.request.Request(
-                url, headers={"User-Agent": "reliable-resources-linkcheck/1.0"}
+                url, headers={"User-Agent": PROBE_UA}
             )
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 # 只读 1 字节，避免下载大文件
@@ -98,8 +105,9 @@ def load_state(path: str) -> dict:
     return {"updated_at": None, "entries": {}}
 
 
-def apply_degrade_to_yaml(data_path: str, resource_ids: set) -> list:
-    """Surgical 文本替换：只改目标条目的 `status: active` → `status: degraded`。
+def apply_degrade_to_yaml(data_path: str, resource_ids: set, today: str) -> list:
+    """Surgical 文本替换：只改目标条目的 `status: active` → `status: degraded`，
+    并同步更新顶层 `updated_at`（数据变了，日期也要变）。
 
     不用 yaml.dump 重写整个文件，避免注释丢失和大面积重排。
     返回实际被修改的 resource id 列表。
@@ -112,6 +120,10 @@ def apply_degrade_to_yaml(data_path: str, resource_ids: set) -> list:
     changed = []
     out = []
     for line in lines:
+        # 顶层 updated_at（无缩进）：数据变更则同步到今天
+        if re.match(r"^updated_at:\s*\S+\s*$", line):
+            out.append(f"updated_at: {today}\n")
+            continue
         m = re.match(r"^(\s*)- id:\s*(\S+)\s*$", line)
         if m:
             current_id = m.group(2)
@@ -161,7 +173,9 @@ def main() -> int:
             continue
         if r.get("status") == "dead":
             continue
-        targets.append((r["id"], "homepage", r["homepage"], r.get("status")))
+        # probe_url：反爬虫站点用官方 API/页面作为存活信号（见 SCHEMA）
+        probe = r.get("probe_url") or r["homepage"]
+        targets.append((r["id"], "homepage", probe, r.get("status")))
         for m in r.get("mirrors", []):
             targets.append((r["id"], "mirror", m["url"], r.get("status")))
 
@@ -219,7 +233,7 @@ def main() -> int:
     # 自动降级（surgical 改 yaml）
     degraded_now = []
     if args.apply_degrade and args.state and degrade_candidates:
-        degraded_now = apply_degrade_to_yaml(args.data, degrade_candidates)
+        degraded_now = apply_degrade_to_yaml(args.data, degrade_candidates, today)
 
     # 写回 state（只在 --apply-degrade 时，避免 PR 检查污染状态）
     if args.apply_degrade and args.state:

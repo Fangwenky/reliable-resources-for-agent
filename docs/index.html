@@ -68,7 +68,7 @@
   #sections { max-width:1024px; margin:6px auto 40px; padding:0 20px; }
   #sections[hidden], #grid[hidden] { display:none; }
   .cat-section { margin:26px 0 8px; scroll-margin-top:72px; }
-  .cat-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+  .cat-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
   .cat-title { display:flex; align-items:center; gap:10px; }
   .cat-dot { width:13px; height:13px; border-radius:4px; flex:none; }
   .cat-title h2 { margin:0; font-size:19px; font-weight:750; letter-spacing:.3px; }
@@ -80,10 +80,10 @@
   .preview-row::-webkit-scrollbar-thumb { background:#d3d7cf; border-radius:4px; }
   .preview-row::-webkit-scrollbar-track { background:transparent; }
   .preview-row .card { flex:0 0 302px; scroll-snap-align:start; }
-  .grid-expanded { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
+  .grid-expanded { display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr)); }
 
   /* ---------- flat grid (search results) ---------- */
-  .grid { max-width:1024px; margin:12px auto 40px; padding:0 20px; display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
+  .grid { max-width:1024px; margin:12px auto 40px; padding:0 20px; display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr)); }
 
   /* ---------- cards ---------- */
   .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:12px; transition:transform .18s ease, box-shadow .18s ease; }
@@ -115,6 +115,10 @@
   .visit { display:flex; align-items:center; justify-content:center; gap:8px; background:var(--ink); color:#fff; text-decoration:none; padding:12px; border-radius:10px; font-size:15px; font-weight:600; margin-top:auto; transition:.15s; }
   .visit:hover { background:#1d2939; }
   .visit svg { width:16px; height:16px; }
+  .visit.disabled { background:#d0d5dd; color:#667085; cursor:not-allowed; pointer-events:none; }
+  .card.is-dead { opacity:.72; }
+  .card.is-dead:hover { transform:none; box-shadow:none; }
+  .dead-note { background:var(--red-bg); border-radius:10px; padding:9px 12px; font-size:13px; color:var(--red); line-height:1.55; }
 
   .empty { text-align:center; color:var(--muted); padding:60px 20px; grid-column:1/-1; }
   .empty .big { font-size:40px; margin-bottom:10px; }
@@ -241,6 +245,8 @@ const STR = {
     loadFail: '数据加载失败，请稍后重试。',
     evLabel: '验证依据', verifiedAt: '验证于',
     visit: '访问官网',
+    deadNote: '该资源已失效，记录保留用于警示仿冒，请勿访问。',
+    deadVisit: '已失效',
     risk: '⚠️ 灰色地带资源：请注意版权与合规风险。',
     refNote: '该地址仅用于辨认真伪，本库不做推荐背书。',
     footer: '数据来源 <a href="data.json">data.json</a>（由 <a href="' + REPO + '">GitHub 仓库</a>自动生成）· <a href="' + REPO + '/blob/main/CONTRIBUTING.zh-CN.md">贡献指南</a>',
@@ -271,6 +277,8 @@ const STR = {
     loadFail: 'Failed to load data. Please retry later.',
     evLabel: 'VERIFIED', verifiedAt: 'verified ',
     visit: 'Visit site',
+    deadNote: 'This resource is dead. The record is kept to warn about impersonators — do not visit.',
+    deadVisit: 'Dead',
     risk: '⚠️ Gray-area resource: mind copyright/compliance risks.',
     refNote: 'This address is for authenticity checks only; the registry does not endorse it.',
     footer: 'Data: <a href="data.json">data.json</a> (auto-generated from the <a href="' + REPO + '">GitHub repo</a>) · <a href="' + REPO + '/blob/main/CONTRIBUTING.md">Contributing</a>',
@@ -301,13 +309,14 @@ function monoLetter(r){
 
 function card(r){
   const s = t();
-  const lt = r.listing_type === 'reference' ? badge('b-ref', s.ltName.reference) : badge('b-endorse', s.ltName.endorsed);
+  const dead = r.status === 'dead';
+  const lt = dead ? '' : (r.listing_type === 'reference' ? badge('b-ref', s.ltName.reference) : badge('b-endorse', s.ltName.endorsed));
   const st = badge('b-' + r.status, s.status[r.status] || r.status);
   const v = r.verification || {};
   const mirrors = (r.mirrors || []).map(m =>
     `<div class="mirror"><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.url)}</a><span class="m-meta">${esc(m.region || '')}${m.region ? ' · ' : ''}${esc(s.verifiedAt)}${esc(m.last_verified || '')}</span></div>`
   ).join('');
-  return `<article class="card">
+  return `<article class="card${dead ? ' is-dead' : ''}">
     <div class="card-top">${monoLetter(r)}
       <div><h2>${esc(rname(r))}</h2>
       <div class="badges">${lt}${st}${badge('b-cat', s.cat[r.category] || r.category)}</div></div>
@@ -321,7 +330,9 @@ function card(r){
       <div class="ev-meta">${esc(v.method || '')} · ${esc(v.verified_at || '')}</div>
     </div></div>
     ${mirrors ? `<div class="mirrors">${mirrors}</div>` : ''}
-    <a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener"><span>${esc(s.visit)}</span>${ARROW_SVG}</a>
+    ${dead
+      ? `<div class="dead-note">${esc(s.deadNote)}</div><span class="visit disabled" aria-disabled="true"><span>${esc(s.deadVisit)}</span></span>`
+      : `<a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener"><span>${esc(s.visit)}</span>${ARROW_SVG}</a>`}
   </article>`;
 }
 
@@ -414,7 +425,11 @@ function closeDropdown(){
 }
 
 function jumpToCat(c){
-  if (!c) { document.getElementById('top').scrollIntoView({behavior:'smooth'}); return; }
+  if (!c) {
+    if ($('q').value.trim() || SEG) { $('q').value = ''; SEG = ''; renderSeg(); render(); }
+    document.getElementById('top').scrollIntoView({behavior:'smooth'});
+    return;
+  }
   if ($('q').value.trim() || SEG) { $('q').value = ''; SEG = ''; renderSeg(); }
   EXPANDED.add(c);
   renderGrouped();

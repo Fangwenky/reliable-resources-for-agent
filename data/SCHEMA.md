@@ -26,6 +26,7 @@ resources:
 | `description_en` | no | One-line English description; falls back to `description` when absent |
 | `listing_type` | yes | Listing tier: `endorsed` (recommended) / `reference` (anti-phishing only), see below |
 | `homepage` | yes | Official homepage (canonical URL); no short links |
+| `probe_url` | no | Optional health-check override: when the homepage blocks bots but an official API/page is the reliable liveness signal, the prober checks this URL instead |
 | `official_channels` | no | Official channels: announcement pages, official social accounts, official APIs (e.g. an official API endpoint that returns the current domain list). Used as the basis for verifying mirrors |
 | `mirrors` | no | Mirror list, see below |
 | `verification` | yes | Verification info, see below |
