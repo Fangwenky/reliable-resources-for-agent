@@ -3,7 +3,7 @@
   "updated_at": "2026-10-05",
   "generated_at": "2026-10-05",
   "skill_version": "1.0.0",
-  "count": 36,
+  "count": 37,
   "resources": [
     {
       "id": "arxiv",
@@ -927,6 +927,32 @@
         "models",
         "datasets",
         "ai"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "linux-foundation",
+      "name": "Linux 基金会",
+      "name_en": "Linux Foundation",
+      "category": "dev-tools",
+      "description": "Linux 基金会官网（Linux 内核及众多开源基础设施项目的主办方），非营利",
+      "description_en": "Official website of the Linux Foundation (home of the Linux kernel and many open-source infrastructure projects); non-profit",
+      "listing_type": "endorsed",
+      "homepage": "https://www.linuxfoundation.org",
+      "official_channels": [
+        "https://www.linuxfoundation.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织；互联网基础设施级项目的主办方"
+      },
+      "tags": [
+        "linux",
+        "open-source",
+        "foundation"
       ],
       "status": "active"
     }
