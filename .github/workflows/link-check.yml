@@ -1,0 +1,33 @@
+name: link-check
+
+on:
+  schedule:
+    - cron: "0 3 * * 0"   # 每周日 11:00（北京时间）运行一次
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "data/**"
+      - "scripts/**"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 安装依赖
+        run: pip install pyyaml
+
+      - name: 探活所有收录 URL
+        run: python scripts/check_links.py --report link-report.json
+
+      - name: 上传探活报告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-report
+          path: link-report.json
