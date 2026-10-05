@@ -11,7 +11,7 @@ Our bar is not just "is it real", but "is it worth listing":
 **Prefer**: long-lived projects with an open-internet spirit — open, maintained by a community or non-profit, where creators and users benefit directly. E.g. long-maintained open-source software, open knowledge bases, and other public-interest projects. This is the focus of the first batch.
 
 **Not yet**: products and services owned by large internet companies. They lack neither users nor marketing channels, so listing them adds no trust value. If the project gains enough influence and an official team seeks collaboration, we can list them as partners (and explore revenue).
-The exception is **anti-phishing listings** (`listing_type: reference`): big brands are exactly where phishing clones thrive, so we allow listing them as "official address only, no endorsement" to help users and agents tell real from fake. They must be clearly labeled "reference only".
+The exception is **anti-phishing listings** (`listing_type: reference`): big brands are exactly where phishing clones thrive, so we allow listing them as "official address only, no endorsement" to help users and agents tell real from fake. They must be clearly labeled "reference only". In particular, tools that have become infrastructure-level for developers — used daily, high demand, prime phishing targets — qualify for `reference` even when company-owned.
 
 **Never**: middlemen that extract value through monopoly — sites that plagiarize or freely aggregate creators' content, build information monopolies, while the actual creators earn nothing. Judge by three questions:
 - Do creators benefit directly (revenue share, attribution, traffic back)?

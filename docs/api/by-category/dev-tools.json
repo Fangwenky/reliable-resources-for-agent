@@ -4,7 +4,7 @@
   "generated_at": "2026-10-05",
   "skill_version": "1.0.0",
   "category": "dev-tools",
-  "count": 20,
+  "count": 25,
   "resources": [
     {
       "id": "mdn-web-docs",
@@ -523,6 +523,133 @@
         "open-source"
       ],
       "status": "active"
+    },
+    {
+      "id": "go-dev",
+      "name": "Go 官网",
+      "name_en": "Go Programming Language",
+      "category": "dev-tools",
+      "description": "Go 编程语言官方网站（下载、文档），仅作防伪收录",
+      "description_en": "Official website of the Go programming language (downloads, docs); reference listing for anti-phishing only",
+      "listing_type": "reference",
+      "homepage": "https://go.dev",
+      "official_channels": [
+        "https://go.dev"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；公司主导的开源项目，仅提供官方地址用于防伪，不作推荐背书"
+      },
+      "tags": [
+        "go",
+        "programming-language"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "npm",
+      "name": "npm 官网",
+      "name_en": "npm",
+      "category": "dev-tools",
+      "description": "JavaScript 包管理器官方网站（包搜索、文档），仅作防伪收录",
+      "description_en": "Official website of the JavaScript package manager (package search, docs); reference listing for anti-phishing only",
+      "listing_type": "reference",
+      "homepage": "https://www.npmjs.com",
+      "official_channels": [
+        "https://www.npmjs.com"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；首页有反爬虫，registry API 实测可用；公司自有产品，仅提供官方地址用于防伪，不作推荐背书"
+      },
+      "tags": [
+        "javascript",
+        "packages"
+      ],
+      "status": "active",
+      "risk": "high-scam-target"
+    },
+    {
+      "id": "docker",
+      "name": "Docker 官网",
+      "name_en": "Docker",
+      "category": "dev-tools",
+      "description": "Docker 容器平台官方网站（下载、文档），仅作防伪收录",
+      "description_en": "Official website of the Docker container platform (downloads, docs); reference listing for anti-phishing only",
+      "listing_type": "reference",
+      "homepage": "https://www.docker.com",
+      "official_channels": [
+        "https://www.docker.com"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书"
+      },
+      "tags": [
+        "containers"
+      ],
+      "status": "active",
+      "risk": "high-scam-target"
+    },
+    {
+      "id": "vscode",
+      "name": "VS Code 官网",
+      "name_en": "Visual Studio Code",
+      "category": "dev-tools",
+      "description": "VS Code 编辑器官方网站（下载、文档），仅作防伪收录",
+      "description_en": "Official website of the VS Code editor (downloads, docs); reference listing for anti-phishing only",
+      "listing_type": "reference",
+      "homepage": "https://code.visualstudio.com",
+      "official_channels": [
+        "https://code.visualstudio.com"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书"
+      },
+      "tags": [
+        "editor"
+      ],
+      "status": "active",
+      "risk": "high-scam-target"
+    },
+    {
+      "id": "github",
+      "name": "GitHub 官网",
+      "name_en": "GitHub",
+      "category": "dev-tools",
+      "description": "GitHub 代码托管平台官方网站，仅作防伪收录",
+      "description_en": "Official website of the GitHub code hosting platform; reference listing for anti-phishing only",
+      "listing_type": "reference",
+      "homepage": "https://github.com",
+      "official_channels": [
+        "https://github.com"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书"
+      },
+      "tags": [
+        "git",
+        "hosting"
+      ],
+      "status": "active",
+      "risk": "high-scam-target"
     }
   ]
 }

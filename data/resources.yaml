@@ -558,6 +558,143 @@ resources:
     tags: [media, images, open-knowledge]
     status: active
 
+  - id: go-dev
+    name: Go 官网
+    name_en: Go Programming Language
+    category: dev-tools
+    description: Go 编程语言官方网站（下载、文档），仅作防伪收录
+    description_en: Official website of the Go programming language (downloads, docs); reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://go.dev
+    official_channels:
+      - https://go.dev
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司主导的开源项目，仅提供官方地址用于防伪，不作推荐背书
+    tags: [go, programming-language]
+    status: active
+
+  - id: npm
+    name: npm 官网
+    name_en: npm
+    category: dev-tools
+    description: JavaScript 包管理器官方网站（包搜索、文档），仅作防伪收录
+    description_en: Official website of the JavaScript package manager (package search, docs); reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://www.npmjs.com
+    official_channels:
+      - https://www.npmjs.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；首页有反爬虫，registry API 实测可用；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [javascript, packages]
+    status: active
+    risk: high-scam-target
+
+  - id: docker
+    name: Docker 官网
+    name_en: Docker
+    category: dev-tools
+    description: Docker 容器平台官方网站（下载、文档），仅作防伪收录
+    description_en: Official website of the Docker container platform (downloads, docs); reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://www.docker.com
+    official_channels:
+      - https://www.docker.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [containers]
+    status: active
+    risk: high-scam-target
+
+  - id: vscode
+    name: VS Code 官网
+    name_en: Visual Studio Code
+    category: dev-tools
+    description: VS Code 编辑器官方网站（下载、文档），仅作防伪收录
+    description_en: Official website of the VS Code editor (downloads, docs); reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://code.visualstudio.com
+    official_channels:
+      - https://code.visualstudio.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [editor]
+    status: active
+    risk: high-scam-target
+
+  - id: github
+    name: GitHub 官网
+    name_en: GitHub
+    category: dev-tools
+    description: GitHub 代码托管平台官方网站，仅作防伪收录
+    description_en: Official website of the GitHub code hosting platform; reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://github.com
+    official_channels:
+      - https://github.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [git, hosting]
+    status: active
+    risk: high-scam-target
+
+  - id: kaggle
+    name: Kaggle 官网
+    name_en: Kaggle
+    category: datasets
+    description: 数据科学竞赛与数据集平台官方网站，仅作防伪收录
+    description_en: Official website of the data science competition and dataset platform; reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://www.kaggle.com
+    official_channels:
+      - https://www.kaggle.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [datasets, competitions]
+    status: active
+
+  - id: huggingface
+    name: Hugging Face 官网
+    name_en: Hugging Face
+    category: datasets
+    description: AI 模型与数据集社区官方网站，仅作防伪收录
+    description_en: Official website of the AI model and dataset community; reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://huggingface.co
+    official_channels:
+      - https://huggingface.co
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [models, datasets, ai]
+    status: active
+
   # ---- 以下为模板：新增条目时复制修改 ----
   # ---- Template below: copy and modify when adding a new entry ----
   # - id: example-mirror-site
