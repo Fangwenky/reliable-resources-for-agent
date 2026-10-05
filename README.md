@@ -36,6 +36,10 @@ The skill fetches the live registry on every use — no reinstall needed for dat
 - Some useful resources rotate domains frequently, and neither users nor agents can easily tell which one is real.
 - This registry is anchored on two things: **trustworthiness** — every entry is human-reviewed and cross-verified against official channels, then continuously health-checked; and **dual audience** — human-readable, and directly consumable by agents.
 
+### Scenario: AI environment setup
+
+When an agent sets up your dev environment (installing Python, Node, a JDK, databases…), it no longer gambles on top search results or hallucinates a plausible-looking download URL — it takes the **official address** from this human-reviewed registry and installs the **right version** with a version manager (pyenv / nvm / conda-forge). Result: smoother, safer setups with fewer compatibility and version issues.
+
 ## Trust model
 
 1. **Human review**: every entry is reviewed by a maintainer before entering `main`; the evidence is written into `verification.evidence` and stays traceable.

@@ -714,6 +714,101 @@ resources:
     tags: [linux, open-source, foundation]
     status: active
 
+  - id: adoptium
+    name: Adoptium (Eclipse Temurin)
+    name_en: Adoptium (Eclipse Temurin)
+    category: dev-tools
+    description: 免费开源的 OpenJDK 构建版本（Eclipse 基金会），告别 Java 版本之乱
+    description_en: Free open-source OpenJDK builds (Eclipse Foundation); tames Java version chaos
+    listing_type: endorsed
+    homepage: https://adoptium.net
+    official_channels:
+      - https://adoptium.net
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；Eclipse 基金会（非营利）项目
+    tags: [java, jdk, open-source]
+    status: active
+
+  - id: pyenv
+    name: pyenv
+    name_en: pyenv
+    category: dev-tools
+    description: Python 多版本管理工具（社区开源项目）
+    description_en: Python version management tool (community open-source project)
+    listing_type: endorsed
+    homepage: https://github.com/pyenv/pyenv
+    official_channels:
+      - https://github.com/pyenv/pyenv
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方仓库地址；社区维护的开源项目
+    tags: [python, version-manager, open-source]
+    status: active
+
+  - id: nvm
+    name: nvm (Node Version Manager)
+    name_en: nvm (Node Version Manager)
+    category: dev-tools
+    description: Node.js 多版本管理工具（社区开源项目）
+    description_en: Node.js version management tool (community open-source project)
+    listing_type: endorsed
+    homepage: https://github.com/nvm-sh/nvm
+    official_channels:
+      - https://github.com/nvm-sh/nvm
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方仓库地址；社区维护的开源项目
+    tags: [nodejs, version-manager, open-source]
+    status: active
+
+  - id: conda-forge
+    name: conda-forge
+    name_en: conda-forge
+    category: dev-tools
+    description: 社区维护的 conda 软件包渠道（Python / 数据科学环境）
+    description_en: Community-maintained conda package channel (Python / data-science environments)
+    listing_type: endorsed
+    homepage: https://conda-forge.org
+    official_channels:
+      - https://conda-forge.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护的开源项目
+    tags: [python, packages, data-science, open-source]
+    status: active
+
+  - id: ubuntu
+    name: Ubuntu 官网
+    name_en: Ubuntu
+    category: dev-tools
+    description: Ubuntu 操作系统官方网站，仅作防伪收录
+    description_en: Official Ubuntu OS website; reference listing for anti-phishing only
+    listing_type: reference
+    homepage: https://ubuntu.com
+    official_channels:
+      - https://ubuntu.com
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；公司自有产品，仅提供官方地址用于防伪，不作推荐背书
+    tags: [linux, os]
+    status: active
+
   # ---- 以下为模板：新增条目时复制修改 ----
   # ---- Template below: copy and modify when adding a new entry ----
   # - id: example-mirror-site
