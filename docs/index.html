@@ -7,58 +7,59 @@
 <style>
   :root {
     --bg:#f6f7f4; --card:#ffffff; --ink:#101828; --muted:#667085; --line:#e6e8e0;
-    --hero:#0b1220; --hero2:#111c33; --accent:#047857; --accent-bg:#ecfdf5;
+    --hero:#0b1220; --hero2:#14213a; --accent:#047857; --accent-bg:#ecfdf5;
     --amber-bg:#fffaeb; --amber:#b45309; --blue-bg:#eff6ff; --blue:#1d4ed8;
     --red-bg:#fef2f2; --red:#b91c1c; --radius:14px;
   }
   * { box-sizing:border-box; }
   html { scroll-behavior:smooth; }
-  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; }
+  body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif; background:var(--bg); color:var(--ink); -webkit-font-smoothing:antialiased; padding-bottom:76px; }
 
-  /* ---------- header ---------- */
-  header { background:radial-gradient(1200px 500px at 50% -10%, var(--hero2), var(--hero)); color:#fff; position:relative; overflow:hidden; }
-  header::before { content:""; position:absolute; inset:0; opacity:.5;
-    background-image:radial-gradient(rgba(255,255,255,.09) 1px, transparent 1px); background-size:22px 22px;
-    mask-image:linear-gradient(to bottom, black 55%, transparent); }
-  .topbar { position:relative; max-width:1024px; margin:0 auto; padding:16px 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-  .brand { display:flex; align-items:center; gap:10px; font-weight:700; font-size:16px; letter-spacing:.2px; }
-  .brand svg { width:26px; height:26px; }
-  .top-actions { display:flex; align-items:center; gap:10px; }
-  .gh-link { color:#d7dce5; text-decoration:none; font-size:13px; border:1px solid rgba(255,255,255,.22); padding:6px 12px; border-radius:999px; transition:.15s; }
-  .gh-link:hover { background:rgba(255,255,255,.1); color:#fff; }
-  .lang-toggle { display:flex; border:1px solid rgba(255,255,255,.22); border-radius:999px; overflow:hidden; }
-  .lang-toggle button { background:transparent; color:#d7dce5; border:0; padding:6px 13px; font-size:13px; cursor:pointer; transition:.15s; }
-  .lang-toggle button.on { background:#6ee7b7; color:#0b1220; font-weight:700; }
-  .hero { position:relative; max-width:1024px; margin:0 auto; padding:34px 20px 40px; text-align:center; }
-  .hero-badge { display:inline-flex; align-items:center; gap:7px; font-size:12px; letter-spacing:2px; color:#6ee7b7; border:1px solid rgba(110,231,183,.35); padding:6px 14px; border-radius:999px; margin-bottom:18px; }
+  /* ---------- slim sticky top nav ---------- */
+  .topnav { position:sticky; top:0; z-index:30; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .topnav-inner { max-width:1024px; margin:0 auto; height:56px; padding:0 20px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .brand { display:flex; align-items:center; gap:9px; font-weight:700; font-size:15px; color:var(--ink); text-decoration:none; letter-spacing:.2px; }
+  .brand svg { width:22px; height:22px; }
+  .nav-actions { display:flex; align-items:center; gap:10px; }
+  .nav-link { color:var(--muted); text-decoration:none; font-size:13px; font-weight:600; padding:6px 10px; border-radius:8px; }
+  .nav-link:hover { color:var(--ink); background:#f2f4f7; }
+  .lang-toggle { display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:#fff; }
+  .lang-toggle button { background:transparent; color:var(--muted); border:0; padding:5px 12px; font-size:12.5px; cursor:pointer; }
+  .lang-toggle button.on { background:var(--ink); color:#fff; font-weight:700; }
+
+  /* ---------- compact hero (scrolls away) ---------- */
+  .hero { background:radial-gradient(900px 380px at 50% -10%, var(--hero2), var(--hero)); color:#fff; position:relative; overflow:hidden; }
+  .hero::before { content:""; position:absolute; inset:0; opacity:.45;
+    background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px); background-size:22px 22px;
+    -webkit-mask-image:linear-gradient(to bottom, black 60%, transparent); mask-image:linear-gradient(to bottom, black 60%, transparent); }
+  .hero-inner { position:relative; max-width:1024px; margin:0 auto; padding:30px 20px 28px; text-align:center; }
+  .hero-badge { display:inline-flex; align-items:center; gap:7px; font-size:11px; letter-spacing:2px; color:#6ee7b7; border:1px solid rgba(110,231,183,.35); padding:5px 13px; border-radius:999px; margin-bottom:12px; }
   .hero-badge .dot { width:7px; height:7px; border-radius:50%; background:#6ee7b7; box-shadow:0 0 8px #6ee7b7; }
-  .hero h1 { margin:0 0 12px; font-size:clamp(30px,5.4vw,46px); font-weight:800; letter-spacing:1px; }
-  .hero .sub { margin:0 auto 26px; color:#c3cad6; font-size:15px; max-width:640px; line-height:1.7; }
-  .stats { display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
-  .stat { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 22px; min-width:120px; }
-  .stat b { display:block; font-size:22px; font-weight:800; }
-  .stat span { font-size:12px; color:#aeb6c6; }
+  .hero h1 { margin:0 0 8px; font-size:clamp(24px,4.4vw,36px); font-weight:800; letter-spacing:1px; }
+  .hero .sub { margin:0 auto 18px; color:#c3cad6; font-size:13.5px; max-width:620px; line-height:1.7; }
+  .stats { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; }
+  .stat { display:flex; align-items:baseline; gap:7px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:999px; padding:6px 16px; font-size:12.5px; color:#aeb6c6; }
+  .stat b { font-size:15px; color:#fff; font-weight:800; }
 
-  /* ---------- sticky toolbar ---------- */
-  .toolbar-wrap { position:sticky; top:0; z-index:20; background:rgba(246,247,244,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-  .toolbar { max-width:1024px; margin:0 auto; padding:14px 20px; display:flex; flex-direction:column; gap:12px; }
+  /* ---------- filters (normal flow, not sticky) ---------- */
+  .filters { max-width:1024px; margin:18px auto 0; padding:0 20px; display:flex; flex-direction:column; gap:10px; }
   .search-box { position:relative; }
   .search-box svg { position:absolute; left:14px; top:50%; transform:translateY(-50%); width:18px; height:18px; color:var(--muted); pointer-events:none; }
-  .search-box input { width:100%; padding:13px 16px 13px 42px; font-size:15px; border:1px solid var(--line); border-radius:12px; background:#fff; outline:none; transition:.15s; }
+  .search-box input { width:100%; padding:12px 16px 12px 42px; font-size:15px; border:1px solid var(--line); border-radius:12px; background:#fff; outline:none; transition:.15s; }
   .search-box input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(4,120,87,.12); }
-  .filters { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .filter-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
   .chips { display:flex; gap:8px; flex-wrap:wrap; flex:1; }
   .chip { border:1px solid var(--line); background:#fff; color:var(--muted); font-size:13px; padding:7px 14px; border-radius:999px; cursor:pointer; transition:.15s; }
   .chip:hover { border-color:var(--accent); color:var(--accent); }
   .chip.on { background:var(--ink); border-color:var(--ink); color:#fff; font-weight:600; }
   .seg { display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; background:#fff; }
-  .seg button { border:0; background:transparent; padding:7px 14px; font-size:13px; color:var(--muted); cursor:pointer; transition:.15s; white-space:nowrap; }
+  .seg button { border:0; background:transparent; padding:7px 14px; font-size:13px; color:var(--muted); cursor:pointer; white-space:nowrap; }
   .seg button.on { background:var(--accent-bg); color:var(--accent); font-weight:700; }
 
-  .meta { max-width:1024px; margin:14px auto 0; padding:0 20px; color:var(--muted); font-size:13px; }
+  .meta { max-width:1024px; margin:12px auto 0; padding:0 20px; color:var(--muted); font-size:13px; }
 
   /* ---------- cards ---------- */
-  .grid { max-width:1024px; margin:14px auto 70px; padding:0 20px; display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
+  .grid { max-width:1024px; margin:12px auto 40px; padding:0 20px; display:grid; gap:16px; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); }
   .card { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:20px; display:flex; flex-direction:column; gap:12px; transition:transform .18s ease, box-shadow .18s ease; }
   .card:hover { transform:translateY(-3px); box-shadow:0 12px 28px rgba(16,24,40,.1); }
   .card-top { display:flex; gap:13px; align-items:flex-start; }
@@ -92,33 +93,46 @@
   .empty { text-align:center; color:var(--muted); padding:60px 20px; grid-column:1/-1; }
   .empty .big { font-size:40px; margin-bottom:10px; }
 
-  footer { border-top:1px solid var(--line); text-align:center; color:var(--muted); font-size:13px; padding:34px 20px 44px; line-height:2; }
+  footer { border-top:1px solid var(--line); text-align:center; color:var(--muted); font-size:13px; padding:26px 20px; line-height:2; }
   footer a { color:var(--blue); text-decoration:none; }
   footer a:hover { text-decoration:underline; }
-  footer code { background:#eef0ea; padding:2px 8px; border-radius:6px; font-size:12px; color:var(--ink); }
+
+  /* ---------- slim persistent bottom CTA bar ---------- */
+  .bottombar { position:fixed; left:0; right:0; bottom:0; z-index:30; background:rgba(255,255,255,.96); backdrop-filter:blur(10px); border-top:1px solid var(--line); box-shadow:0 -6px 20px rgba(16,24,40,.07); }
+  .bottombar-inner { max-width:1024px; margin:0 auto; padding:10px 20px calc(10px + env(safe-area-inset-bottom)); display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .bb-text { font-size:13.5px; color:var(--ink); font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bb-actions { display:flex; gap:8px; flex:none; }
+  .bb-btn { font-size:13px; font-weight:600; text-decoration:none; padding:8px 16px; border-radius:999px; border:1px solid var(--line); color:var(--ink); background:#fff; white-space:nowrap; transition:.15s; }
+  .bb-btn:hover { border-color:var(--ink); }
+  .bb-btn.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .bb-btn.primary:hover { background:#03644b; }
 
   @media (max-width:640px) {
-    .filters { flex-direction:column; align-items:stretch; }
-    .seg { align-self:flex-start; }
-    .stat { min-width:0; flex:1; padding:8px 10px; }
+    .brand span { display:none; }
+    .bb-text { display:none; }
+    .bottombar-inner { justify-content:center; }
+    .stat { padding:5px 12px; }
   }
 </style>
 </head>
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+<nav class="topnav">
+  <div class="topnav-inner">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
       <span>Reliable Resources</span>
-    </div>
-    <div class="top-actions">
-      <a class="gh-link" id="gh-link" href="https://github.com/Fangwenky/reliable-resources-for-agent" target="_blank" rel="noopener">GitHub</a>
+    </a>
+    <div class="nav-actions">
+      <a class="nav-link" href="https://github.com/Fangwenky/reliable-resources-for-agent" target="_blank" rel="noopener">GitHub</a>
       <div class="lang-toggle">
         <button id="lang-zh">中文</button><button id="lang-en">EN</button>
       </div>
     </div>
   </div>
-  <div class="hero">
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-inner">
     <div class="hero-badge"><span class="dot"></span><span id="hero-badge"></span></div>
     <h1 id="tagline"></h1>
     <p class="sub" id="subtitle"></p>
@@ -126,16 +140,14 @@
   </div>
 </header>
 
-<div class="toolbar-wrap">
-  <div class="toolbar">
-    <div class="search-box">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      <input id="q" type="search" autocomplete="off">
-    </div>
-    <div class="filters">
-      <div class="chips" id="chips"></div>
-      <div class="seg" id="seg"></div>
-    </div>
+<div class="filters">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input id="q" type="search" autocomplete="off">
+  </div>
+  <div class="filter-row">
+    <div class="chips" id="chips"></div>
+    <div class="seg" id="seg"></div>
   </div>
 </div>
 <div class="meta" id="meta"></div>
@@ -143,12 +155,23 @@
 
 <footer id="footer"></footer>
 
+<div class="bottombar">
+  <div class="bottombar-inner">
+    <span class="bb-text" id="bb-text"></span>
+    <div class="bb-actions">
+      <a class="bb-btn primary" id="bb-submit" target="_blank" rel="noopener"></a>
+      <a class="bb-btn" id="bb-report" href="https://github.com/Fangwenky/reliable-resources-for-agent/issues/new" target="_blank" rel="noopener"></a>
+    </div>
+  </div>
+</div>
+
 <script>
 let RES = [];
 let LANG = localStorage.getItem('rra-lang') || 'zh';
 let CHIP = '', SEG = '';
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const REPO = 'https://github.com/Fangwenky/reliable-resources-for-agent';
 
 const CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>';
 const ARROW_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
@@ -167,16 +190,19 @@ const STR = {
     searchPh: '搜索资源名称、描述、标签…（中英文皆可）',
     chipAll: '全部',
     segAll: '全部', segEndorsed: '推荐', segReference: '防伪',
-    statRes: '收录资源', statCat: '覆盖分类', statUpd: '数据更新',
-    showing: m => `当前显示 ${m} 条`,
+    statRes: '收录', statCat: '分类', statUpd: '更新',
+    showing: m => `当前 ${m} 条`,
     empty: '没有匹配的资源', emptyHint: '换个关键词或分类试试',
     loadFail: '数据加载失败，请稍后重试。',
     evLabel: '验证依据', verifiedAt: '验证于',
     visit: '访问官网',
     risk: '⚠️ 灰色地带资源：请注意版权与合规风险。',
     refNote: '该地址仅用于辨认真伪，本库不做推荐背书。',
-    footerMain: '数据来源 <a href="data.json">data.json</a>（由 <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub 仓库</a> 自动生成）· <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.zh-CN.md">贡献指南</a> · 发现失效 / 钓鱼地址请提 issue',
-    footerSkill: '🤖 Agent 安装 skill：<code>npx skills add https://github.com/Fangwenky/reliable-resources-for-agent</code>',
+    footer: '数据来源 <a href="data.json">data.json</a>（由 <a href="' + REPO + '">GitHub 仓库</a>自动生成）· <a href="' + REPO + '/blob/main/CONTRIBUTING.zh-CN.md">贡献指南</a>',
+    bbText: '🔗 发现值得收录的可信站点？',
+    bbSubmit: '投稿加入 →',
+    bbReport: '报钓鱼站 / 提意见',
+    contributingUrl: REPO + '/blob/main/CONTRIBUTING.zh-CN.md',
     cat: {academic:'学术', ebooks:'电子书', 'dev-tools':'开发工具', 'ai-tools':'AI 工具', media:'影音', dataset:'数据集', mirror:'镜像站', other:'其他'},
     status: {active:'可用', degraded:'不稳定', dead:'已失效'},
     ltName: {endorsed:'推荐收录', reference:'防伪收录'},
@@ -189,16 +215,19 @@ const STR = {
     searchPh: 'Search name, description, tags… (EN/中文)',
     chipAll: 'All',
     segAll: 'All', segEndorsed: 'Endorsed', segReference: 'Reference',
-    statRes: 'resources', statCat: 'categories', statUpd: 'updated',
-    showing: m => `showing ${m}`,
+    statRes: 'listed', statCat: 'categories', statUpd: 'updated',
+    showing: m => `${m} shown`,
     empty: 'No matches', emptyHint: 'Try another keyword or category',
     loadFail: 'Failed to load data. Please retry later.',
     evLabel: 'VERIFIED', verifiedAt: 'verified ',
     visit: 'Visit site',
     risk: '⚠️ Gray-area resource: mind copyright/compliance risks.',
     refNote: 'This address is for authenticity checks only; the registry does not endorse it.',
-    footerMain: 'Data: <a href="data.json">data.json</a> (auto-generated from the <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub repo</a>) · <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.md">Contributing</a> · Report dead / phishing URLs via issues',
-    footerSkill: '🤖 Install as an agent skill: <code>npx skills add https://github.com/Fangwenky/reliable-resources-for-agent</code>',
+    footer: 'Data: <a href="data.json">data.json</a> (auto-generated from the <a href="' + REPO + '">GitHub repo</a>) · <a href="' + REPO + '/blob/main/CONTRIBUTING.md">Contributing</a>',
+    bbText: '🔗 Spotted a trustworthy site worth listing?',
+    bbSubmit: 'Submit it →',
+    bbReport: 'Report phishing / feedback',
+    contributingUrl: REPO + '/blob/main/CONTRIBUTING.md',
     cat: {academic:'Academia', ebooks:'E-books', 'dev-tools':'Dev Tools', 'ai-tools':'AI Tools', media:'Media', dataset:'Datasets', mirror:'Mirrors', other:'Other'},
     status: {active:'Active', degraded:'Degraded', dead:'Dead'},
     ltName: {endorsed:'Endorsed', reference:'Reference only'},
@@ -298,7 +327,11 @@ function applyLang(){
   $('q').placeholder = s.searchPh;
   $('lang-zh').classList.toggle('on', LANG === 'zh');
   $('lang-en').classList.toggle('on', LANG === 'en');
-  $('footer').innerHTML = `${s.footerMain}<br>${s.footerSkill}`;
+  $('footer').innerHTML = s.footer;
+  $('bb-text').textContent = s.bbText;
+  $('bb-submit').textContent = s.bbSubmit;
+  $('bb-submit').href = s.contributingUrl;
+  $('bb-report').textContent = s.bbReport;
   renderChips(); renderSeg(); renderStats(window.__updatedAt); render();
 }
 
