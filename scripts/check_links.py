@@ -9,6 +9,8 @@
     --apply-degrade                 达到阈值时自动把 resources.yaml 对应条目标记 degraded
 规则：
   - homepage 连续 2 次探活失败  →  status: active → degraded（同时同步顶层 updated_at）
+  - HTTP 403 视为"站点存在但拒绝探活"（反爬虫），不计入连续失败、不触发降级；
+    这类站点可用 probe_url 指定官方 API/页面作为替代存活信号（见 SCHEMA）
   - mirror 失败只记录进 state，不触发整站降级（镜像坏了不代表主站坏了）
   - 探活成功则清零该 URL 的失败计数；degraded → active 的恢复必须人工操作（防抖动）
   - status 已是 degraded/dead 的条目仍会被探活（用于计数清零），但不再自动改状态
@@ -38,6 +40,7 @@ import json
 import os
 import re
 import sys
+import urllib.error
 import urllib.request
 from datetime import date
 
@@ -56,46 +59,38 @@ PROBE_UA = (
 )
 
 
+def _result(url, ok, status, final_url, error):
+    return {
+        "url": url,
+        "ok": ok,
+        "status": status,
+        "final_url": final_url,
+        "error": error,
+        # blocked=True：HTTP 403，站点存在但拒绝探活（反爬虫）。
+        # 这是"无法判断"而非"失效"，不计入降级所需的连续失败。
+        "blocked": (status == 403 and not ok),
+    }
+
+
 def check_url(url: str, timeout: int) -> dict:
-    """返回 {'url', 'ok', 'status', 'final_url', 'error'}。"""
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": PROBE_UA},
-        method="HEAD",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return {
-                "url": url,
-                "ok": True,
-                "status": resp.status,
-                "final_url": resp.url,
-                "error": None,
-            }
-    except Exception:  # noqa: BLE001 - 探活需要捕获所有网络异常
-        # HEAD 被拒时降级为 GET（有些站点不支持 HEAD）
+    """返回 {'url', 'ok', 'status', 'final_url', 'error', 'blocked'}。"""
+    for method in ("HEAD", "GET"):
+        req = urllib.request.Request(
+            url, headers={"User-Agent": PROBE_UA}, method=method
+        )
         try:
-            req = urllib.request.Request(
-                url, headers={"User-Agent": PROBE_UA}
-            )
             with urllib.request.urlopen(req, timeout=timeout) as resp:
-                # 只读 1 字节，避免下载大文件
-                resp.read(1)
-                return {
-                    "url": url,
-                    "ok": True,
-                    "status": resp.status,
-                    "final_url": resp.url,
-                    "error": None,
-                }
-        except Exception as e2:  # noqa: BLE001
-            return {
-                "url": url,
-                "ok": False,
-                "status": None,
-                "final_url": None,
-                "error": f"{type(e2).__name__}: {e2}",
-            }
+                if method == "GET":
+                    resp.read(1)  # 只读 1 字节，避免下载大文件
+                return _result(url, True, resp.status, resp.url, None)
+        except urllib.error.HTTPError as e:
+            if method == "HEAD":
+                continue  # HEAD 被拒，降级为 GET 再试
+            return _result(url, False, e.code, None, f"HTTP {e.code}")
+        except Exception as e2:  # noqa: BLE001 - 探活需要捕获所有网络异常
+            if method == "HEAD":
+                continue
+            return _result(url, False, None, None, f"{type(e2).__name__}: {e2}")
 
 
 def load_state(path: str) -> dict:
@@ -219,6 +214,12 @@ def main() -> int:
             e["consecutive_failures"] = 0
             e["last_ok"] = today
             e["last_error"] = None
+            e["blocked_hits"] = 0
+        elif r.get("blocked"):
+            # 403：站点存在但拒绝探活，无法判断是否失效 → 不计入连续失败、不触发降级
+            e["blocked_hits"] = e.get("blocked_hits", 0) + 1
+            e["last_blocked"] = today
+            e["last_error"] = r["error"]
         else:
             e["consecutive_failures"] = e.get("consecutive_failures", 0) + 1
             e["last_error"] = r["error"]
@@ -245,13 +246,16 @@ def main() -> int:
     failed = [
         r
         for r in results
-        if not r["ok"] and (args.strict or r["resource_status"] == "active")
+        if not r["ok"]
+        and not r.get("blocked")  # 403 只是探活被拒，不算失败
+        and (args.strict or r["resource_status"] == "active")
     ]
 
     report = {
         "checked_at": today,
         "total": len(results),
         "failed": len(failed),
+        "blocked": sum(1 for r in results if r.get("blocked")),
         "degraded_now": sorted(degraded_now),
         "results": sorted(results, key=lambda x: (x["resource"], x["kind"])),
     }

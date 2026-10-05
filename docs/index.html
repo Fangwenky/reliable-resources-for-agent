@@ -235,7 +235,7 @@ const STR = {
     searchLabel: '搜索资源',
     navCat: '分类',
     navAll: '全部资源',
-    segAll: '全部', segEndorsed: '推荐', segReference: '防伪',
+    segAll: '全部', segEndorsed: '推荐', segReference: '防伪', segDead: '已失效',
     statRes: '收录', statCat: '分类', statUpd: '更新',
     totalLine: (n, m) => `共收录 ${n} 条 · ${m} 个分类`,
     showing: m => `找到 ${m} 条`,
@@ -267,7 +267,7 @@ const STR = {
     searchLabel: 'Search resources',
     navCat: 'Categories',
     navAll: 'All resources',
-    segAll: 'All', segEndorsed: 'Endorsed', segReference: 'Reference',
+    segAll: 'All', segEndorsed: 'Endorsed', segReference: 'Reference', segDead: 'Dead',
     statRes: 'listed', statCat: 'categories', statUpd: 'updated',
     totalLine: (n, m) => `${n} resources · ${m} categories`,
     showing: m => `${m} found`,
@@ -313,7 +313,7 @@ function card(r){
   const lt = dead ? '' : (r.listing_type === 'reference' ? badge('b-ref', s.ltName.reference) : badge('b-endorse', s.ltName.endorsed));
   const st = badge('b-' + r.status, s.status[r.status] || r.status);
   const v = r.verification || {};
-  const mirrors = (r.mirrors || []).map(m =>
+  const mirrors = dead ? '' : (r.mirrors || []).map(m =>
     `<div class="mirror"><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.url)}</a><span class="m-meta">${esc(m.region || '')}${m.region ? ' · ' : ''}${esc(s.verifiedAt)}${esc(m.last_verified || '')}</span></div>`
   ).join('');
   return `<article class="card${dead ? ' is-dead' : ''}">
@@ -336,9 +336,10 @@ function card(r){
   </article>`;
 }
 
-function sectionHTML(c){
+function sectionHTML(c, list){
   const s = t();
-  const items = RES.filter(r => r.category === c);
+  const items = list.filter(r => r.category === c);
+  if (!items.length) return '';
   const expanded = EXPANDED.has(c);
   const [dot] = catColor(c);
   return `<section class="cat-section" id="sec-${esc(c)}">
@@ -356,10 +357,11 @@ function sectionHTML(c){
 
 function renderGrouped(){
   const s = t();
+  const live = RES.filter(r => r.status !== 'dead');
   $('sections').hidden = false;
   $('grid').hidden = true;
-  $('meta').textContent = s.totalLine(RES.length, catsOf().length);
-  $('sections').innerHTML = catsOf().map(sectionHTML).join('');
+  $('meta').textContent = s.totalLine(live.length, catsOf().length);
+  $('sections').innerHTML = catsOf().map(c => sectionHTML(c, live)).join('');
   $('sections').querySelectorAll('.expand-btn').forEach(b =>
     b.addEventListener('click', () => {
       const c = b.dataset.cat;
@@ -371,7 +373,14 @@ function renderGrouped(){
 function renderFlat(q){
   const s = t();
   const list = RES.filter(r => {
-    if (SEG && r.listing_type !== SEG) return false;
+    if (SEG === 'dead') {
+      // 归档视图：只看已失效
+      if (r.status !== 'dead') return false;
+    } else {
+      // 默认视图与推荐/防伪筛选排除 dead；但有搜索词时保留 dead 命中（辨伪查询）
+      if (!q && r.status === 'dead') return false;
+      if (SEG && r.listing_type !== SEG) return false;
+    }
     const hay = [r.name, r.name_en, r.description, r.description_en, r.id, (r.tags || []).join(' ')].join(' ').toLowerCase();
     return hay.includes(q);
   });
@@ -389,7 +398,7 @@ function render(){
 
 function renderSeg(){
   const s = t();
-  const opts = [['', s.segAll], ['endorsed', s.segEndorsed], ['reference', s.segReference]];
+  const opts = [['', s.segAll], ['endorsed', s.segEndorsed], ['reference', s.segReference], ['dead', s.segDead]];
   $('seg').innerHTML = opts.map(([v, label]) =>
     `<button class="${SEG === v ? 'on' : ''}" data-v="${v}">${esc(label)}</button>`).join('');
   $('seg').querySelectorAll('button').forEach(b =>

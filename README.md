@@ -44,7 +44,7 @@ When an agent sets up your dev environment (installing Python, Node, a JDK, data
 
 1. **Human review**: every entry is reviewed by a maintainer before entering `main`; the evidence is written into `verification.evidence` and stays traceable.
 2. **Official-channel backing**: mirror entries must be backed by an official announcement, official account, or official API (see `CONTRIBUTING.md`).
-3. **CI health checks**: GitHub Actions periodically probes every listed URL; a homepage failing twice in a row is automatically degraded (`active` → `degraded`, recoverable only by manual review). Health checks verify reachability only — not file safety, version correctness, or environment compatibility.
+3. **CI health checks**: GitHub Actions periodically probes every listed URL; a homepage failing twice in a row is automatically degraded (`active` → `degraded`, recoverable only by manual review). Health checks verify reachability only — not file safety, version correctness, or environment compatibility. HTTP 403 (bot refused by anti-scraping) does not count as a failure; `dead` resources move to a "Dead" archive, out of the default browse and filter views.
 4. **Anti-poisoning**: no short/redirect links; gray-area resources are explicitly marked `risk: gray-area`; dead domains are kept on record to warn about impersonators.
 5. **Listing philosophy**: two tiers — `endorsed` recommends open-source and public-interest projects; `reference` only provides official addresses of high-impersonation-risk sites (e.g. big-tech products) for anti-phishing, with no endorsement. We never list middlemen that extract value through monopoly (see `CONTRIBUTING.md`).
 

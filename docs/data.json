@@ -711,6 +711,7 @@
       "description_en": "Directory of open access journals (independent non-profit, donation-funded)",
       "listing_type": "endorsed",
       "homepage": "https://doaj.org",
+      "probe_url": "https://doaj.org/api/docs",
       "official_channels": [
         "https://doaj.org"
       ],
