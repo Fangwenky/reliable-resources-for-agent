@@ -6,11 +6,15 @@
   "categories": [
     "academic",
     "dev-tools",
+    "ebooks",
+    "media",
     "other"
   ],
   "counts": {
-    "academic": 1,
-    "dev-tools": 9,
+    "academic": 4,
+    "dev-tools": 20,
+    "ebooks": 2,
+    "media": 1,
     "other": 2
   }
 }

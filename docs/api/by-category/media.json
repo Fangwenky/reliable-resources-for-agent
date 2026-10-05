@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "skill_version": "1.0.0",
+  "category": "media",
+  "count": 1,
+  "resources": [
+    {
+      "id": "wikimedia-commons",
+      "name": "Wikimedia Commons",
+      "name_en": "Wikimedia Commons",
+      "category": "media",
+      "description": "自由多媒体素材库（维基媒体基金会，非营利）",
+      "description_en": "Free media repository (Wikimedia Foundation, non-profit)",
+      "listing_type": "endorsed",
+      "homepage": "https://commons.wikimedia.org",
+      "official_channels": [
+        "https://commons.wikimedia.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "media",
+        "images",
+        "open-knowledge"
+      ],
+      "status": "active"
+    }
+  ]
+}

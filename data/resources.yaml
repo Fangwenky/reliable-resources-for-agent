@@ -235,6 +235,329 @@ resources:
     tags: [archive, open-knowledge]
     status: active
 
+  - id: rust-lang
+    name: Rust 官网
+    name_en: Rust Programming Language
+    category: dev-tools
+    description: 内存安全的系统编程语言官方网站（下载、文档、社区）
+    description_en: Official website of the memory-safe systems programming language (downloads, docs, community)
+    listing_type: endorsed
+    homepage: https://www.rust-lang.org
+    official_channels:
+      - https://www.rust-lang.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护的开源语言
+    tags: [rust, programming-language, open-source]
+    status: active
+
+  - id: crates-io
+    name: crates.io
+    name_en: crates.io
+    category: dev-tools
+    description: Rust 官方包索引（cargo 的默认源）
+    description_en: Official Rust package registry (the default source for cargo)
+    listing_type: endorsed
+    homepage: https://crates.io
+    official_channels:
+      - https://crates.io
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；API 实测可用
+    tags: [rust, packages, open-source]
+    status: active
+
+  - id: postgresql
+    name: PostgreSQL 官网
+    name_en: PostgreSQL
+    category: dev-tools
+    description: 开源对象关系数据库官方网站（下载、文档）
+    description_en: Official website of the open-source object-relational database (downloads, docs)
+    listing_type: endorsed
+    homepage: https://www.postgresql.org
+    official_channels:
+      - https://www.postgresql.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护
+    tags: [database, sql, open-source]
+    status: active
+
+  - id: sqlite
+    name: SQLite 官网
+    name_en: SQLite
+    category: dev-tools
+    description: 轻量嵌入式关系数据库官方网站（公有领域）
+    description_en: Official website of the lightweight embedded relational database (public domain)
+    listing_type: endorsed
+    homepage: https://www.sqlite.org
+    official_channels:
+      - https://www.sqlite.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定
+    tags: [database, sql, embedded]
+    status: active
+
+  - id: apache
+    name: Apache 软件基金会
+    name_en: Apache Software Foundation
+    category: dev-tools
+    description: Apache 软件基金会官网（HTTP Server、Kafka 等开源项目）
+    description_en: Official website of the Apache Software Foundation (home of HTTP Server, Kafka and many OSS projects)
+    listing_type: endorsed
+    homepage: https://www.apache.org
+    official_channels:
+      - https://www.apache.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；非营利组织
+    tags: [open-source, foundation]
+    status: active
+
+  - id: freebsd
+    name: FreeBSD 官网
+    name_en: FreeBSD
+    category: dev-tools
+    description: FreeBSD 操作系统官方网站（下载、文档）
+    description_en: Official FreeBSD operating system website (downloads, docs)
+    listing_type: endorsed
+    homepage: https://www.freebsd.org
+    official_channels:
+      - https://www.freebsd.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护
+    tags: [bsd, os, open-source]
+    status: active
+
+  - id: archlinux
+    name: Arch Linux 官网
+    name_en: Arch Linux
+    category: dev-tools
+    description: Arch Linux 发行版官方网站（Wiki、软件包）
+    description_en: Official Arch Linux distribution website (wiki, packages)
+    listing_type: endorsed
+    homepage: https://archlinux.org
+    official_channels:
+      - https://archlinux.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护
+    tags: [linux, distro, open-source]
+    status: active
+
+  - id: neovim
+    name: Neovim 官网
+    name_en: Neovim
+    category: dev-tools
+    description: Neovim 文本编辑器官方网站（下载、文档）
+    description_en: Official Neovim text editor website (downloads, docs)
+    listing_type: endorsed
+    homepage: https://neovim.io
+    official_channels:
+      - https://neovim.io
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护的开源项目
+    tags: [editor, vim, open-source]
+    status: active
+
+  - id: homebrew
+    name: Homebrew 官网
+    name_en: Homebrew
+    category: dev-tools
+    description: macOS/Linux 包管理器官方网站（文档、安装）
+    description_en: Official website of the macOS/Linux package manager (docs, installation)
+    listing_type: endorsed
+    homepage: https://brew.sh
+    official_channels:
+      - https://brew.sh
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；社区维护的开源项目
+    tags: [package-manager, macos, open-source]
+    status: active
+
+  - id: devdocs
+    name: DevDocs
+    name_en: DevDocs
+    category: dev-tools
+    description: 多语言开发文档聚合站（可离线使用），开源项目
+    description_en: Aggregated developer documentation for many languages (works offline); open-source project
+    listing_type: endorsed
+    homepage: https://devdocs.io
+    official_channels:
+      - https://devdocs.io
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；开源项目
+    tags: [docs, offline, open-source]
+    status: active
+
+  - id: kubernetes
+    name: Kubernetes 官网
+    name_en: Kubernetes
+    category: dev-tools
+    description: Kubernetes 容器编排平台官方网站（文档、社区），CNCF 项目
+    description_en: Official Kubernetes container orchestration website (docs, community); a CNCF project
+    listing_type: endorsed
+    homepage: https://kubernetes.io
+    official_channels:
+      - https://kubernetes.io
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；CNCF 非营利项目
+    tags: [containers, orchestration, open-source]
+    status: active
+
+  - id: gutenberg
+    name: Project Gutenberg
+    name_en: Project Gutenberg
+    category: ebooks
+    description: 免费电子书图书馆先驱（公有领域图书），非营利
+    description_en: Pioneering free ebook library (public-domain books); non-profit
+    listing_type: endorsed
+    homepage: https://www.gutenberg.org
+    official_channels:
+      - https://www.gutenberg.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；非营利组织运营
+    tags: [ebooks, public-domain]
+    status: active
+
+  - id: openlibrary
+    name: Open Library
+    name_en: Open Library
+    category: ebooks
+    description: 开放图书借阅图书馆（Internet Archive 项目），非营利
+    description_en: Open lending library for books (an Internet Archive project); non-profit
+    listing_type: endorsed
+    homepage: https://openlibrary.org
+    official_channels:
+      - https://openlibrary.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；非营利组织运营
+    tags: [ebooks, library]
+    status: active
+
+  - id: pubmed
+    name: PubMed
+    name_en: PubMed
+    category: academic
+    description: 生物医学文献检索引擎（美国国立卫生研究院运营）
+    description_en: Biomedical literature search engine (operated by the US National Institutes of Health)
+    listing_type: endorsed
+    homepage: https://pubmed.ncbi.nlm.nih.gov
+    official_channels:
+      - https://pubmed.ncbi.nlm.nih.gov
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；政府机构运营
+    tags: [papers, medicine, open-access]
+    status: active
+
+  - id: semanticscholar
+    name: Semantic Scholar
+    name_en: Semantic Scholar
+    category: academic
+    description: AI 驱动的学术论文搜索引擎（艾伦研究院，非营利）
+    description_en: AI-powered academic paper search engine (Allen Institute, non-profit)
+    listing_type: endorsed
+    homepage: https://www.semanticscholar.org
+    official_channels:
+      - https://www.semanticscholar.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；非营利组织运营
+    tags: [papers, ai, open-access]
+    status: active
+
+  - id: doaj
+    name: DOAJ 开放获取期刊目录
+    name_en: DOAJ – Directory of Open Access Journals
+    category: academic
+    description: 开放获取期刊目录（独立非营利，靠捐赠运营）
+    description_en: Directory of open access journals (independent non-profit, donation-funded)
+    listing_type: endorsed
+    homepage: https://doaj.org
+    official_channels:
+      - https://doaj.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；页面实测可访问；非营利组织运营
+    tags: [journals, open-access]
+    status: active
+
+  - id: wikimedia-commons
+    name: Wikimedia Commons
+    name_en: Wikimedia Commons
+    category: media
+    description: 自由多媒体素材库（维基媒体基金会，非营利）
+    description_en: Free media repository (Wikimedia Foundation, non-profit)
+    listing_type: endorsed
+    homepage: https://commons.wikimedia.org
+    official_channels:
+      - https://commons.wikimedia.org
+    mirrors: []
+    verification:
+      method: official-domain
+      verified_at: 2026-10-05
+      verified_by: maintainer
+      evidence: 官方域名，长期稳定；非营利组织运营
+    tags: [media, images, open-knowledge]
+    status: active
+
   # ---- 以下为模板：新增条目时复制修改 ----
   # ---- Template below: copy and modify when adding a new entry ----
   # - id: example-mirror-site

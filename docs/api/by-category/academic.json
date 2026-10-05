@@ -4,7 +4,7 @@
   "generated_at": "2026-10-05",
   "skill_version": "1.0.0",
   "category": "academic",
-  "count": 1,
+  "count": 4,
   "resources": [
     {
       "id": "arxiv",
@@ -28,6 +28,83 @@
       "tags": [
         "papers",
         "preprints",
+        "open-access"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "pubmed",
+      "name": "PubMed",
+      "name_en": "PubMed",
+      "category": "academic",
+      "description": "生物医学文献检索引擎（美国国立卫生研究院运营）",
+      "description_en": "Biomedical literature search engine (operated by the US National Institutes of Health)",
+      "listing_type": "endorsed",
+      "homepage": "https://pubmed.ncbi.nlm.nih.gov",
+      "official_channels": [
+        "https://pubmed.ncbi.nlm.nih.gov"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；政府机构运营"
+      },
+      "tags": [
+        "papers",
+        "medicine",
+        "open-access"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "semanticscholar",
+      "name": "Semantic Scholar",
+      "name_en": "Semantic Scholar",
+      "category": "academic",
+      "description": "AI 驱动的学术论文搜索引擎（艾伦研究院，非营利）",
+      "description_en": "AI-powered academic paper search engine (Allen Institute, non-profit)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.semanticscholar.org",
+      "official_channels": [
+        "https://www.semanticscholar.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "papers",
+        "ai",
+        "open-access"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "doaj",
+      "name": "DOAJ 开放获取期刊目录",
+      "name_en": "DOAJ – Directory of Open Access Journals",
+      "category": "academic",
+      "description": "开放获取期刊目录（独立非营利，靠捐赠运营）",
+      "description_en": "Directory of open access journals (independent non-profit, donation-funded)",
+      "listing_type": "endorsed",
+      "homepage": "https://doaj.org",
+      "official_channels": [
+        "https://doaj.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；页面实测可访问；非营利组织运营"
+      },
+      "tags": [
+        "journals",
         "open-access"
       ],
       "status": "active"

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "skill_version": "1.0.0",
+  "category": "ebooks",
+  "count": 2,
+  "resources": [
+    {
+      "id": "gutenberg",
+      "name": "Project Gutenberg",
+      "name_en": "Project Gutenberg",
+      "category": "ebooks",
+      "description": "免费电子书图书馆先驱（公有领域图书），非营利",
+      "description_en": "Pioneering free ebook library (public-domain books); non-profit",
+      "listing_type": "endorsed",
+      "homepage": "https://www.gutenberg.org",
+      "official_channels": [
+        "https://www.gutenberg.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "ebooks",
+        "public-domain"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "openlibrary",
+      "name": "Open Library",
+      "name_en": "Open Library",
+      "category": "ebooks",
+      "description": "开放图书借阅图书馆（Internet Archive 项目），非营利",
+      "description_en": "Open lending library for books (an Internet Archive project); non-profit",
+      "listing_type": "endorsed",
+      "homepage": "https://openlibrary.org",
+      "official_channels": [
+        "https://openlibrary.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "ebooks",
+        "library"
+      ],
+      "status": "active"
+    }
+  ]
+}
