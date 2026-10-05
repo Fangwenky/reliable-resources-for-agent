@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reliable Resources for Agent — 可信资源库</title>
+<style>
+  :root { --bg:#f7f7f5; --card:#fff; --ink:#1a1a1a; --muted:#6b7280; --accent:#166534; --warn:#b45309; --bad:#b91c1c; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); }
+  header { background:#111827; color:#fff; padding:36px 20px; text-align:center; }
+  header h1 { margin:0 0 8px; font-size:26px; }
+  header p { margin:4px 0; color:#d1d5db; font-size:14px; }
+  header .tagline { color:#86efac; font-weight:600; }
+  .toolbar { max-width:960px; margin:20px auto 0; padding:0 16px; display:flex; gap:10px; flex-wrap:wrap; }
+  .toolbar input, .toolbar select { padding:10px 12px; font-size:15px; border:1px solid #d1d5db; border-radius:8px; background:#fff; }
+  .toolbar input { flex:1; min-width:200px; }
+  .meta { max-width:960px; margin:12px auto 0; padding:0 16px; color:var(--muted); font-size:13px; }
+  .grid { max-width:960px; margin:16px auto 60px; padding:0 16px; display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); }
+  .card { background:var(--card); border-radius:12px; padding:18px; box-shadow:0 1px 4px rgba(0,0,0,.06); display:flex; flex-direction:column; gap:10px; }
+  .card h2 { margin:0; font-size:18px; }
+  .card .desc { color:#374151; font-size:14px; margin:0; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; }
+  .badge { font-size:12px; padding:3px 10px; border-radius:999px; }
+  .b-endorse { background:#dcfce7; color:var(--accent); }
+  .b-ref { background:#fef3c7; color:var(--warn); }
+  .b-active { background:#e0e7ff; color:#3730a3; }
+  .b-degraded { background:#fef3c7; color:var(--warn); }
+  .b-dead { background:#fee2e2; color:var(--bad); }
+  .evidence { font-size:13px; color:var(--muted); background:#f3f4f6; border-radius:8px; padding:8px 10px; }
+  .mirrors { font-size:13px; display:flex; flex-direction:column; gap:6px; }
+  .mirror { display:flex; justify-content:space-between; align-items:center; gap:8px; background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; padding:8px 10px; }
+  .mirror a { color:#1d4ed8; text-decoration:none; word-break:break-all; }
+  .mirror .m-meta { color:var(--muted); font-size:12px; white-space:nowrap; }
+  .visit { display:inline-block; text-align:center; background:#111827; color:#fff; text-decoration:none; padding:10px; border-radius:8px; font-size:15px; margin-top:auto; }
+  .visit:hover { background:#1f2937; }
+  .risk { font-size:13px; color:var(--bad); }
+  footer { text-align:center; color:var(--muted); font-size:13px; padding:30px 16px; }
+  footer a { color:#1d4ed8; }
+  .empty { text-align:center; color:var(--muted); padding:40px; grid-column:1/-1; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reliable Resources for Agent</h1>
+  <p class="tagline">不信我，信证据。</p>
+  <p>人工审核 · 持续验证 · 防钓鱼 · 同时服务人类与 AI Agent</p>
+</header>
+
+<div class="toolbar">
+  <input id="q" type="search" placeholder="搜索资源名称、描述、标签…">
+  <select id="cat"><option value="">全部分类</option></select>
+  <select id="lt">
+    <option value="">全部类型</option>
+    <option value="endorsed">推荐收录</option>
+    <option value="reference">防伪收录</option>
+  </select>
+</div>
+<div class="meta" id="meta"></div>
+<div class="grid" id="grid"></div>
+
+<footer>
+  数据来源 <a href="data.json">data.json</a>（由 <a href="https://github.com/Fangwenky/reliable-resources-for-agent">GitHub 仓库</a> 自动生成）·
+  <a href="https://github.com/Fangwenky/reliable-resources-for-agent/blob/main/CONTRIBUTING.md">贡献指南</a> ·
+  发现失效/钓鱼地址请提 issue
+</footer>
+
+<script>
+let RES = [];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const CAT_NAME = {academic:'学术', ebooks:'电子书', 'dev-tools':'开发工具', 'ai-tools':'AI 工具', media:'影音', dataset:'数据集', mirror:'镜像站', other:'其他'};
+const STATUS_NAME = {active:'可用', degraded:'不稳定', dead:'已失效'};
+
+function badge(cls, txt){ return `<span class="badge ${cls}">${esc(txt)}</span>`; }
+
+function card(r){
+  const lt = r.listing_type === 'reference'
+    ? badge('b-ref','仅防伪·不做推荐')
+    : badge('b-endorse','推荐收录');
+  const st = badge('b-'+r.status, STATUS_NAME[r.status] || r.status);
+  const v = r.verification || {};
+  const mirrors = (r.mirrors||[]).map(m =>
+    `<div class="mirror"><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.url)}</a><span class="m-meta">${esc(m.region||'')}${m.region?' · ':''}验证于 ${esc(m.last_verified||'')}</span></div>`
+  ).join('');
+  const risk = r.risk === 'gray-area' ? `<div class="risk">⚠️ 灰色地带资源：请注意版权与合规风险</div>` : '';
+  const refNote = r.listing_type === 'reference' ? `<div class="evidence">该地址仅用于辨认真伪，本库不做推荐背书。</div>` : '';
+  return `<div class="card">
+    <h2>${esc(r.name)}</h2>
+    <div class="badges">${lt}${st}${badge('b-active', CAT_NAME[r.category]||r.category)}</div>
+    <p class="desc">${esc(r.description)}</p>
+    ${risk}${refNote}
+    <div class="evidence">✅ 验证依据：${esc(v.evidence||'')}（${esc(v.method||'')} · ${esc(v.verified_at||'')}）</div>
+    ${mirrors ? `<div class="mirrors">${mirrors}</div>` : ''}
+    <a class="visit" href="${esc(r.homepage)}" target="_blank" rel="noopener">一键访问官网 →</a>
+  </div>`;
+}
+
+function render(){
+  const q = $('q').value.trim().toLowerCase();
+  const cat = $('cat').value, lt = $('lt').value;
+  const list = RES.filter(r => {
+    if (cat && r.category !== cat) return false;
+    if (lt && r.listing_type !== lt) return false;
+    if (q) {
+      const hay = [r.name, r.description, r.id, (r.tags||[]).join(' ')].join(' ').toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  $('meta').textContent = `共收录 ${RES.length} 条 · 当前显示 ${list.length} 条`;
+  $('grid').innerHTML = list.length ? list.map(card).join('') : `<div class="empty">没有匹配的资源，换个关键词试试。</div>`;
+}
+
+fetch('data.json').then(r => r.json()).then(d => {
+  RES = d.resources || [];
+  const cats = [...new Set(RES.map(r => r.category))];
+  cats.forEach(c => {
+    const o = document.createElement('option');
+    o.value = c; o.textContent = CAT_NAME[c] || c;
+    $('cat').appendChild(o);
+  });
+  $('meta').textContent = `数据更新于 ${d.updated_at} · 共收录 ${RES.length} 条`;
+  render();
+}).catch(() => { $('grid').innerHTML = `<div class="empty">数据加载失败，请稍后重试。</div>`; });
+
+$('q').addEventListener('input', render);
+$('cat').addEventListener('change', render);
+$('lt').addEventListener('change', render);
+</script>
+</body>
+</html>
