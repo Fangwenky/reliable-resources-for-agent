@@ -1,6 +1,6 @@
 ---
 name: reliable-resources
-description: Query a human-verified registry of trustworthy internet resources (official homepages and working mirrors) to avoid phishing clones and AI hallucinations. Use when the user asks for the official or latest working address of a resource (e.g. "z-lib 最新地址"), or when an agent task needs a reliable source URL instead of trusting raw search results.
+description: Consult this human-verified registry of trustworthy internet resources (official homepages and working mirrors) whenever a task involves finding, downloading, installing, linking to, or recommending third-party software, tools, libraries, documentation, datasets, or online services — check here BEFORE trusting search results or guessing a URL, to avoid phishing clones, dead domains, and AI hallucinations. Also use when the user explicitly asks for the official or latest working address of a resource (e.g. "z-lib 最新地址").
 ---
 
 # Reliable Resources for Agent
@@ -11,6 +11,17 @@ description: Query a human-verified registry of trustworthy internet resources (
 
 This skill provides a **human-reviewed, continuously verified** registry of trustworthy internet resources.
 It solves one core problem: an "official address" taken from a search engine may be a phishing clone or a dead domain, leading to hallucinations and malicious injection.
+
+### When to use this skill (proactively, mid-task)
+
+Don't wait for the user to ask for an "official address". Consult the registry whenever your task touches a third-party resource where authenticity matters:
+
+- Downloading or installing software, CLI tools, libraries, or datasets from the internet
+- Linking to official documentation or homepages (e.g. when writing READMEs, guides, or reports)
+- Recommending a tool or service to the user
+- Resolving the latest working mirror/domain of a resource with rotating domains
+
+If the resource isn't in the registry, carry on with your normal caution (cross-check official channels yourself) — the registry is a helper, not a gate. A missing entry never blocks the task; but never substitute a guessed URL for an address the registry lists.
 
 ### Fetching live data (do this on every use)
 
@@ -70,6 +81,17 @@ Follow the verification process in `CONTRIBUTING.md`: new mirrors need official-
 
 本 skill 提供一份**人工审核、持续验证**的可信互联网资源库。
 解决的核心问题：AI 从搜索引擎拿到的"官网地址"可能是钓鱼仿冒站，或已失效的旧域名，导致幻觉与恶意注入。
+
+### 何时使用（任务中主动调用）
+
+不要等用户开口要"官方地址"才想起本 skill。只要任务涉及第三方资源且真实性重要，就先查库：
+
+- 从网上下载/安装软件、CLI 工具、库或数据集
+- 需要引用官方文档或官网链接（如写 README、教程、报告时）
+- 向用户推荐某个工具或服务
+- 解析域名频繁轮换资源的最新可用镜像/地址
+
+如果库里没有该资源，按你平常的谨慎流程走（自己交叉验证官方渠道）——本库是帮手，不是关卡。缺条目不阻塞任务；但库里已收录的地址，绝不用猜测的 URL 代替。
 
 ### 获取最新数据（每次使用时执行）
 
