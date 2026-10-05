@@ -72,6 +72,21 @@ Both tiers share the same verification bar (`verification` required); they diffe
 
 New categories need a justification in the PR and maintainer approval.
 
+## Data contract stability (for skill consumers)
+
+The skill (`skills/reliable-resources/SKILL.md`) is designed to be installed once and never updated. It depends only on this stable contract:
+
+- Top-level: `version`, `updated_at`, `skill_version`, `resources[]` (plus `category` / `count` in per-category files)
+- Per resource: `id`, `name`, `name_en`, `description`, `description_en`, `homepage`, `mirrors[]`, `listing_type`, `status`, `verification{method, verified_at, verified_by, evidence}`, `tags`, `risk`
+
+Promises:
+
+- We may **add** new optional fields at any time — consumers must ignore unknown fields.
+- We will **not** rename, remove, or change the meaning of existing fields without bumping top-level `version` and announcing a migration.
+- `skill_version` always mirrors the skill's frontmatter `version` (injected by `scripts/build_site.py`); when it moves ahead, agents advise users to reinstall the skill.
+
+This is what lets the skill stay frozen while the registry keeps evolving.
+
 ## Status lifecycle
 
 - `active` → 2 consecutive CI health-check failures → `degraded` (still shown, with a warning)

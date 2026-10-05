@@ -7,6 +7,7 @@
 import argparse
 import json
 import os
+import re
 import sys
 from datetime import date
 
@@ -15,6 +16,27 @@ try:
     import yaml
 except ImportError:
     sys.exit("需要 pyyaml：pip install pyyaml")
+
+
+def read_skill_version(repo_root: str) -> str:
+    """从 skills/reliable-resources/SKILL.md 的 frontmatter 读取 version。
+
+    数据里带的 skill_version 与 skill 本体永远一致，改 skill 时只需改一处。
+    """
+    p = os.path.join(repo_root, "skills", "reliable-resources", "SKILL.md")
+    try:
+        with open(p, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+        if lines and lines[0].strip() == "---":
+            for line in lines[1:]:
+                if line.strip() == "---":
+                    break
+                m = re.match(r'^version:\s*["\']?([^"\'\s]+)', line)
+                if m:
+                    return m.group(1)
+    except OSError:
+        pass
+    return "1.0.0"
 
 
 def to_jsonable(obj):
@@ -39,10 +61,12 @@ def main() -> None:
 
     resources = data.get("resources", [])
     today = date.today().isoformat()
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(args.data)))
     base = {
         "version": data.get("version", 1),
         "updated_at": data.get("updated_at", today),
         "generated_at": today,
+        "skill_version": read_skill_version(repo_root),
     }
 
     # 全量数据

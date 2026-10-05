@@ -73,6 +73,21 @@ resources:
 
 新增分类需在 PR 中说明理由，由维护者批准。
 
+## 数据契约稳定性承诺（面向 skill 消费者）
+
+本 skill（`skills/reliable-resources/SKILL.md`）的设计目标是安装一次、永不更新。它只依赖以下稳定契约：
+
+- 顶层：`version`、`updated_at`、`skill_version`、`resources[]`（分类文件中还有 `category` / `count`）
+- 每条资源：`id`、`name`、`name_en`、`description`、`description_en`、`homepage`、`mirrors[]`、`listing_type`、`status`、`verification{method, verified_at, verified_by, evidence}`、`tags`、`risk`
+
+承诺：
+
+- 我们可能随时**新增**可选字段——消费者必须忽略未知字段。
+- **不会**在不升级顶层 `version` 并公告迁移方案的情况下，重命名、删除或改变已有字段的含义。
+- `skill_version` 永远与 skill frontmatter 的 `version` 一致（由 `scripts/build_site.py` 自动注入）；当它领先时，Agent 会建议用户重装 skill。
+
+这就是 skill 可以冻结、而库可以持续演进的原因。
+
 ## 状态流转
 
 - `active` → 连续 2 次 CI 探活失败 → `degraded`（仍展示，带警告）
