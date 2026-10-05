@@ -25,8 +25,11 @@
 
 **人类用户**：直接阅读 [`data/resources.yaml`](data/resources.yaml)，或在网站上按分类/`tags` 检索（支持中文/英文切换）。
 
-**Agent**：安装本 skill（[SKILL.md](SKILL.md)，中英双语），按 skill 中的流程查询、选址、呈现。
+**Agent**：安装本 skill（[SKILL.md](SKILL.md)，中英双语），按 skill 中的"拉取最新数据 → 查询 → 选址 → 呈现"流程使用。
+skill 每次使用时会从 `https://fangwenky.github.io/reliable-resources-for-agent/data.json` 拉取最新数据（CI 在每次数据变更后自动重新生成），无需重装即可获得最新收录。
 Claude Code 等支持 skills 的 Agent 可直接把本仓库加入 skill 目录。
+
+**Agent 数据接口**（不装 skill 也能用）：`https://fangwenky.github.io/reliable-resources-for-agent/data.json`，看 `updated_at` 判断新鲜度。
 
 ## 仓库结构
 
