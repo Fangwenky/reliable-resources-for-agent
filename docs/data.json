@@ -1,0 +1,293 @@
+{
+  "version": 1,
+  "updated_at": "2026-10-05",
+  "generated_at": "2026-10-05",
+  "count": 12,
+  "resources": [
+    {
+      "id": "arxiv",
+      "name": "arXiv",
+      "category": "academic",
+      "description": "开放获取的学术论文预印本库，覆盖物理、数学、计算机等领域",
+      "listing_type": "endorsed",
+      "homepage": "https://arxiv.org",
+      "official_channels": [
+        "https://arxiv.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "papers",
+        "preprints",
+        "open-access"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "mdn-web-docs",
+      "name": "MDN Web Docs",
+      "category": "dev-tools",
+      "description": "权威的 Web 开发文档（HTML/CSS/JavaScript/Web API）",
+      "listing_type": "endorsed",
+      "homepage": "https://developer.mozilla.org",
+      "official_channels": [
+        "https://developer.mozilla.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "docs",
+        "web",
+        "frontend"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "python-docs",
+      "name": "Python 官方文档",
+      "category": "dev-tools",
+      "description": "Python 语言官方文档（教程、标准库、语言参考）",
+      "listing_type": "endorsed",
+      "homepage": "https://docs.python.org",
+      "official_channels": [
+        "https://docs.python.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "docs",
+        "python"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "python-org",
+      "name": "Python 官网",
+      "category": "dev-tools",
+      "description": "Python 编程语言官方网站（下载、文档、社区）",
+      "listing_type": "endorsed",
+      "homepage": "https://www.python.org",
+      "official_channels": [
+        "https://www.python.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；由 Python 软件基金会维护"
+      },
+      "tags": [
+        "python",
+        "programming-language",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "kernel-org",
+      "name": "Linux Kernel 官网",
+      "category": "dev-tools",
+      "description": "Linux 内核官方网站（源码下载、文档、版本发布）",
+      "listing_type": "endorsed",
+      "homepage": "https://www.kernel.org",
+      "official_channels": [
+        "https://www.kernel.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "linux",
+        "kernel",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "gnu-org",
+      "name": "GNU 官网",
+      "category": "dev-tools",
+      "description": "GNU 项目官方网站（自由软件、工具链文档）",
+      "listing_type": "endorsed",
+      "homepage": "https://www.gnu.org",
+      "official_channels": [
+        "https://www.gnu.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；由自由软件基金会维护"
+      },
+      "tags": [
+        "gnu",
+        "free-software",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "pypi",
+      "name": "PyPI",
+      "category": "dev-tools",
+      "description": "Python 官方包索引（pip install 的默认源）",
+      "listing_type": "endorsed",
+      "homepage": "https://pypi.org",
+      "official_channels": [
+        "https://pypi.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；由 Python 软件基金会维护"
+      },
+      "tags": [
+        "python",
+        "packages",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "git-scm",
+      "name": "Git 官网",
+      "category": "dev-tools",
+      "description": "Git 版本控制系统官方网站（下载、文档、教程）",
+      "listing_type": "endorsed",
+      "homepage": "https://git-scm.com",
+      "official_channels": [
+        "https://git-scm.com"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定"
+      },
+      "tags": [
+        "git",
+        "vcs",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js 官网",
+      "category": "dev-tools",
+      "description": "Node.js 运行时官方网站（下载、文档、版本发布）",
+      "listing_type": "endorsed",
+      "homepage": "https://nodejs.org",
+      "official_channels": [
+        "https://nodejs.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；由 OpenJS 基金会维护"
+      },
+      "tags": [
+        "nodejs",
+        "javascript",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "debian",
+      "name": "Debian 官网",
+      "category": "dev-tools",
+      "description": "Debian GNU/Linux 发行版官方网站",
+      "listing_type": "endorsed",
+      "homepage": "https://www.debian.org",
+      "official_channels": [
+        "https://www.debian.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；社区维护的非营利发行版"
+      },
+      "tags": [
+        "linux",
+        "distro",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "wikipedia",
+      "name": "维基百科",
+      "category": "other",
+      "description": "自由的百科全书，由维基媒体基金会（非营利）运营",
+      "listing_type": "endorsed",
+      "homepage": "https://www.wikipedia.org",
+      "official_channels": [
+        "https://www.wikipedia.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "encyclopedia",
+        "open-knowledge"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "archive-org",
+      "name": "Internet Archive",
+      "category": "other",
+      "description": "互联网档案馆（网页时光机、开放图书/影音典藏），非营利数字图书馆",
+      "listing_type": "endorsed",
+      "homepage": "https://archive.org",
+      "official_channels": [
+        "https://archive.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-05",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；非营利组织运营"
+      },
+      "tags": [
+        "archive",
+        "open-knowledge"
+      ],
+      "status": "active"
+    }
+  ]
+}
