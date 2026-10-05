@@ -5,7 +5,28 @@ A **human-reviewed, continuously verified** registry of trustworthy internet res
 > 🌐 中文版：[README.zh-CN.md](README.zh-CN.md)
 
 🌐 **Browse online**: https://fangwenky.github.io/reliable-resources-for-agent/
-🤖 **Install as an agent skill**: `npx skills add https://github.com/Fangwenky/reliable-resources-for-agent`
+🤖 **Install as an agent skill**: see [Install](#install)
+
+## Install
+
+One command — copy, paste, run:
+
+```bash
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -g
+```
+
+Variants:
+
+```bash
+# Install for a specific agent only (claude-code, codex, cursor, …)
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -a claude-code
+
+# Preview without installing
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent --list
+```
+
+After installing, restart your agent, then try: *"What's the latest working address of Z-Library?"*
+The skill fetches the live registry on every use — no reinstall needed for data updates (only when the skill itself gets a new version, which the agent will tell you about).
 
 ## Why
 

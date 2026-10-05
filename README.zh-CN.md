@@ -5,7 +5,28 @@
 > 🌐 English version: [README.md](README.md)
 
 🌐 **在线浏览**：https://fangwenky.github.io/reliable-resources-for-agent/
-🤖 **Agent 安装 skill**：`npx skills add https://github.com/Fangwenky/reliable-resources-for-agent`
+🤖 **Agent 安装 skill**：见[安装](#安装)
+
+## 安装
+
+一条命令——复制、粘贴、回车：
+
+```bash
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -g
+```
+
+常用变体：
+
+```bash
+# 只装给某个 Agent（claude-code、codex、cursor 等）
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent -a claude-code
+
+# 先预览，不安装
+npx skills add https://github.com/Fangwenky/reliable-resources-for-agent --list
+```
+
+装完重启你的 Agent，然后试一句："Z-Library 最新可用地址是什么？"
+skill 每次使用时自动拉取最新数据——数据更新无需重装（只有 skill 本体发新版时才需重装，Agent 会主动提醒你）。
 
 ## 为什么做这个
 
