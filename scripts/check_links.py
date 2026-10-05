@@ -1,6 +1,23 @@
 #!/usr/bin/env python3
 """URL 探活脚本：检查 data/resources.yaml 中所有 homepage 与 mirrors 的可用性。
 
+探活范围（诚实声明）：只验证 URL 可达（HTTP 200/3xx 跟随跳转后），不验证下载文件
+完整性/安全性、版本号正确性、环境兼容性。这些需要人工审核，用户请自行判断。
+
+失败累计与自动降级（"持续验证"闭环）：
+    --state data/link-health.json   启用失败计数持久化（文件不存在则新建）
+    --apply-degrade                 达到阈值时自动把 resources.yaml 对应条目标记 degraded
+规则：
+  - homepage 连续 2 次探活失败  →  status: active → degraded
+  - mirror 失败只记录进 state，不触发整站降级（镜像坏了不代表主站坏了）
+  - 探活成功则清零该 URL 的失败计数；degraded → active 的恢复必须人工操作（防抖动）
+  - status 已是 degraded/dead 的条目仍会被探活（用于计数清零），但不再自动改状态
+  - state 文件只在 --apply-degrade 同时给出时才写回（PR 检查只报告、不写状态）
+
+CI 用法（.github/workflows/link-check.yml）：
+  定时/手动触发：python scripts/check_links.py --state data/link-health.json --apply-degrade --report link-report.json
+  PR 检查：      python scripts/check_links.py --report link-report.json
+
 只用标准库 + pyyaml。CI 中通过 `pip install pyyaml` 安装依赖。
 
 用法：
@@ -8,6 +25,8 @@
                                   [--only <resource-id>]
                                   [--timeout 15]
                                   [--report report.json]
+                                  [--state link-health.json]
+                                  [--apply-degrade]
                                   [--strict]
 
 退出码：0 = 全部 active URL 可达；1 = 有 active URL 不可达（--strict 下 degraded 也算失败）。
@@ -16,6 +35,8 @@
 import argparse
 import concurrent.futures
 import json
+import os
+import re
 import sys
 import urllib.request
 from datetime import date
@@ -24,6 +45,8 @@ try:
     import yaml
 except ImportError:
     sys.exit("需要 pyyaml：pip install pyyaml")
+
+DEGRADE_THRESHOLD = 2  # homepage 连续失败达到此次数 → degraded
 
 
 def check_url(url: str, timeout: int) -> dict:
@@ -42,7 +65,7 @@ def check_url(url: str, timeout: int) -> dict:
                 "final_url": resp.url,
                 "error": None,
             }
-    except Exception as e:  # noqa: BLE001 - 探活需要捕获所有网络异常
+    except Exception:  # noqa: BLE001 - 探活需要捕获所有网络异常
         # HEAD 被拒时降级为 GET（有些站点不支持 HEAD）
         try:
             req = urllib.request.Request(
@@ -68,18 +91,70 @@ def check_url(url: str, timeout: int) -> dict:
             }
 
 
+def load_state(path: str) -> dict:
+    if path and os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            return json.load(f)
+    return {"updated_at": None, "entries": {}}
+
+
+def apply_degrade_to_yaml(data_path: str, resource_ids: set) -> list:
+    """Surgical 文本替换：只改目标条目的 `status: active` → `status: degraded`。
+
+    不用 yaml.dump 重写整个文件，避免注释丢失和大面积重排。
+    返回实际被修改的 resource id 列表。
+    """
+    with open(data_path, encoding="utf-8") as f:
+        lines = f.readlines()
+
+    pending = set(resource_ids)
+    current_id = None
+    changed = []
+    out = []
+    for line in lines:
+        m = re.match(r"^(\s*)- id:\s*(\S+)\s*$", line)
+        if m:
+            current_id = m.group(2)
+        if (
+            current_id in pending
+            and re.match(r"^(\s*)status:\s*active\s*$", line)
+        ):
+            indent = re.match(r"^(\s*)", line).group(1)
+            out.append(f"{indent}status: degraded\n")
+            changed.append(current_id)
+            pending.discard(current_id)
+            continue
+        out.append(line)
+
+    if changed:
+        with open(data_path, "w", encoding="utf-8") as f:
+            f.writelines(out)
+    return changed
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", default="data/resources.yaml")
     ap.add_argument("--only", default=None, help="只检查指定 resource id")
     ap.add_argument("--timeout", type=int, default=15)
     ap.add_argument("--report", default=None, help="把 JSON 报告写到文件")
+    ap.add_argument("--state", default=None, help="失败计数状态文件（如 data/link-health.json）")
+    ap.add_argument(
+        "--apply-degrade",
+        action="store_true",
+        help="达到阈值时自动降级 resources.yaml 中的 status（需同时给 --state）",
+    )
     ap.add_argument("--strict", action="store_true")
     args = ap.parse_args()
+
+    today = date.today().isoformat()
+    state = load_state(args.state) if args.state else {"entries": {}}
+    entries = state.setdefault("entries", {})
 
     with open(args.data, encoding="utf-8") as f:
         data = yaml.safe_load(f)
 
+    resources = {r["id"]: r for r in data.get("resources", [])}
     targets = []  # (resource_id, label, url, status)
     for r in data.get("resources", []):
         if args.only and r["id"] != args.only:
@@ -104,10 +179,54 @@ def main() -> int:
                     "resource": rid,
                     "kind": label,
                     "resource_status": st,
-                    "checked_at": date.today().isoformat(),
+                    "checked_at": today,
                 }
             )
             results.append(res)
+
+    # 更新失败计数
+    degrade_candidates = set()
+    for r in results:
+        key = f"{r['resource']}::{r['url']}"
+        e = entries.setdefault(
+            key,
+            {
+                "resource": r["resource"],
+                "kind": r["kind"],
+                "url": r["url"],
+                "consecutive_failures": 0,
+                "last_check": None,
+                "last_ok": None,
+                "last_error": None,
+            },
+        )
+        e["last_check"] = today
+        if r["ok"]:
+            e["consecutive_failures"] = 0
+            e["last_ok"] = today
+            e["last_error"] = None
+        else:
+            e["consecutive_failures"] = e.get("consecutive_failures", 0) + 1
+            e["last_error"] = r["error"]
+            # 只有 homepage 的连续失败能触发整站降级
+            if (
+                r["kind"] == "homepage"
+                and e["consecutive_failures"] >= DEGRADE_THRESHOLD
+                and resources.get(r["resource"], {}).get("status") == "active"
+            ):
+                degrade_candidates.add(r["resource"])
+
+    # 自动降级（surgical 改 yaml）
+    degraded_now = []
+    if args.apply_degrade and args.state and degrade_candidates:
+        degraded_now = apply_degrade_to_yaml(args.data, degrade_candidates)
+
+    # 写回 state（只在 --apply-degrade 时，避免 PR 检查污染状态）
+    if args.apply_degrade and args.state:
+        state["updated_at"] = today
+        with open(args.state, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2, ensure_ascii=False)
+        print(f"状态已写回 {args.state}")
 
     failed = [
         r
@@ -116,9 +235,10 @@ def main() -> int:
     ]
 
     report = {
-        "checked_at": date.today().isoformat(),
+        "checked_at": today,
         "total": len(results),
         "failed": len(failed),
+        "degraded_now": sorted(degraded_now),
         "results": sorted(results, key=lambda x: (x["resource"], x["kind"])),
     }
     print(json.dumps(report, indent=2, ensure_ascii=False))
@@ -126,6 +246,8 @@ def main() -> int:
         with open(args.report, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
 
+    if degraded_now:
+        print(f"\n自动降级（连续 {DEGRADE_THRESHOLD} 次失败）：{', '.join(sorted(degraded_now))}")
     if failed:
         print("\n不可达的 active URL：", file=sys.stderr)
         for r in failed:

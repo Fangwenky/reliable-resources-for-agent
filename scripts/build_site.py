@@ -94,6 +94,13 @@ def main() -> None:
             json.dump(cat_payload, f, ensure_ascii=False, indent=2)
         print(f"wrote {cat_path} ({len(rs)} resources)")
 
+    # 清理过期分类文件（如分类改名/删除后残留的旧 json，避免接口不同步）
+    for fname in os.listdir(api_dir):
+        if fname.endswith(".json") and fname[:-5] not in by_cat:
+            stale = os.path.join(api_dir, fname)
+            os.remove(stale)
+            print(f"removed stale {stale}")
+
     # 分类索引
     index_payload = to_jsonable(
         {**base, "categories": sorted(by_cat), "counts": {c: len(v) for c, v in sorted(by_cat.items())}}

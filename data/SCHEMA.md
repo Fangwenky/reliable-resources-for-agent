@@ -72,6 +72,21 @@ Both tiers share the same verification bar (`verification` required); they diffe
 
 New categories need a justification in the PR and maintainer approval.
 
+## status lifecycle & health-check scope
+
+- `active` → `degraded`: automatic. When a resource's homepage fails health checks
+  **2 consecutive times**, `scripts/check_links.py --apply-degrade` flips its status
+  (CI runs this weekly; failure counts persist in `data/link-health.json`).
+  Mirror failures are recorded but never trigger a resource-level degrade.
+- `degraded` → `active`: manual only. A maintainer re-verifies and restores it
+  (avoids flapping).
+- `active`/`degraded` → `dead`: manual only, after human re-verification.
+
+**Health checks verify URL reachability only** (HTTP 200/3xx after redirects).
+They do **not** verify download file integrity/safety, version correctness, or
+environment compatibility — those require human review, and users should judge
+for themselves. Never claim otherwise in docs or promotion.
+
 ## Data contract stability (for skill consumers)
 
 The skill (`skills/reliable-resources/SKILL.md`) is designed to be installed once and never updated. It depends only on this stable contract:

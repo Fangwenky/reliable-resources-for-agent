@@ -27,10 +27,10 @@ jobs:
       - name: 生成站点数据
         run: python scripts/build_site.py
 
-      - name: 提交更新后的 data.json
+      - name: 提交更新后的站点数据
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/data.json
-          git diff --staged --quiet || git commit -m "chore: regenerate docs/data.json"
+          git add docs/data.json docs/api
+          git diff --staged --quiet || git commit -m "chore: regenerate site data (data.json + api)"
           git push

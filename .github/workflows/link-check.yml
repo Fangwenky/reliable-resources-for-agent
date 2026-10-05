@@ -9,6 +9,9 @@ on:
       - "data/**"
       - "scripts/**"
 
+permissions:
+  contents: write   # 定时任务需要提交降级结果与健康状态
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -23,7 +26,25 @@ jobs:
         run: pip install pyyaml
 
       - name: 探活所有收录 URL
-        run: python scripts/check_links.py --report link-report.json
+        # PR 只检查不写状态；定时/手动触发启用失败累计与自动降级
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            python scripts/check_links.py --report link-report.json
+          else
+            python scripts/check_links.py \
+              --state data/link-health.json \
+              --apply-degrade \
+              --report link-report.json
+          fi
+
+      - name: 提交降级结果与健康状态
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/resources.yaml data/link-health.json
+          git diff --staged --quiet || git commit -m "chore: auto-degrade unhealthy resources [link-check]"
+          git push
 
       - name: 上传探活报告
         if: always()

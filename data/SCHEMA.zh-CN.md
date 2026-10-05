@@ -73,6 +73,19 @@ resources:
 
 新增分类需在 PR 中说明理由，由维护者批准。
 
+## 状态流转与探活范围
+
+- `active` → `degraded`：自动。当某条资源的 homepage **连续 2 次**探活失败，
+  `scripts/check_links.py --apply-degrade` 自动将其状态改为 degraded
+  （CI 每周运行；失败计数持久化在 `data/link-health.json`）。
+  镜像失败只记录，不触发整站降级。
+- `degraded` → `active`：仅人工恢复。维护者复验后手动改回（防抖动）。
+- `active`/`degraded` → `dead`：仅人工，需经人工复验。
+
+**探活只验证 URL 可达**（跟随跳转后的 HTTP 200/3xx），**不验证**下载文件完整性/
+安全性、版本号正确性、环境兼容性——这些需要人工审核，用户请自行判断。
+文档与宣传中不得作超出此范围的承诺。
+
 ## 数据契约稳定性承诺（面向 skill 消费者）
 
 本 skill（`skills/reliable-resources/SKILL.md`）的设计目标是安装一次、永不更新。它只依赖以下稳定契约：
