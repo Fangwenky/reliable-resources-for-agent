@@ -6,12 +6,17 @@ Welcome! This registry's entire value rests on **trust**, so its listing bar is 
 
 ## Listing philosophy
 
-Our bar is not just "is it real", but "is it worth listing":
+Our bar is not just "is it real", but "is it worth listing". There is one core test: **has this product or project created real value for the internet and for many people's daily use?** If it has become a tool used by many, part of the internet's infrastructure, then listing it is a given — no matter whether it comes from a big company, an indie developer, or an open-source community.
+
+The rules below are guidelines, not hard law — judge flexibly:
 
 **Prefer**: long-lived projects with an open-internet spirit — open, maintained by a community or non-profit, where creators and users benefit directly. E.g. long-maintained open-source software, open knowledge bases, and other public-interest projects. This is the focus of the first batch.
 
-**Not yet**: products and services owned by large internet companies. They lack neither users nor marketing channels, so listing them adds no trust value. If the project gains enough influence and an official team seeks collaboration, we can list them as partners (and explore revenue).
-The exception is **anti-phishing listings** (`listing_type: reference`): big brands are exactly where phishing clones thrive, so we allow listing them as "official address only, no endorsement" to help users and agents tell real from fake. They must be clearly labeled "reference only". In particular, tools that have become infrastructure-level for developers — used daily, high demand, prime phishing targets — qualify for `reference` even when company-owned.
+**Infrastructure-level products**: widely used products that have become internet infrastructure should be listed regardless of who makes them. Company-owned products at this level are generally listed as `reference` (official address only, for anti-phishing, no endorsement); cases of clear broad public value may be `endorsed` at the maintainer's judgment. Big brands are exactly where phishing clones thrive, so reference listings must be clearly labeled "reference only".
+
+**Promotion partnerships**: if a company wants its product promoted, they are welcome to reach out. Once it passes review, we list it and give it a featured spot on the website where human visitors can see it. Featured spots are clearly labeled as partnerships, separate from review-based listings. This is one of the project's future partnership and revenue directions.
+
+**New products / indie developers / startups**: submissions are welcome, but listing requires enhanced manual review — verify the maker's identity, confirm official channels, assess sustainability and maintenance; re-check regularly after listing, and downgrade or delist on abandonment, deterioration, or loss of contact.
 
 **Never**: middlemen that extract value through monopoly — sites that plagiarize or freely aggregate creators' content, build information monopolies, while the actual creators earn nothing. Judge by three questions:
 - Do creators benefit directly (revenue share, attribution, traffic back)?
