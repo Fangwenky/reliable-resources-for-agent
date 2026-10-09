@@ -1,10 +1,10 @@
 {
   "version": 1,
-  "updated_at": "2026-10-05",
-  "generated_at": "2026-10-06",
+  "updated_at": "2026-10-09",
+  "generated_at": "2026-10-09",
   "skill_version": "1.0.0",
   "category": "dev-tools",
-  "count": 31,
+  "count": 34,
   "resources": [
     {
       "id": "mdn-web-docs",
@@ -806,6 +806,84 @@
       "tags": [
         "linux",
         "os"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "nginx",
+      "name": "nginx 官网",
+      "name_en": "nginx",
+      "category": "dev-tools",
+      "description": "nginx 开源项目官方网站（下载、文档、版本发布）",
+      "description_en": "Official website of the nginx open-source project (downloads, docs, releases)",
+      "listing_type": "endorsed",
+      "homepage": "https://nginx.org",
+      "official_channels": [
+        "https://nginx.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；开源项目官方站点"
+      },
+      "tags": [
+        "nginx",
+        "web-server",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "w3c",
+      "name": "W3C",
+      "name_en": "W3C",
+      "category": "dev-tools",
+      "description": "万维网联盟官网（Web 技术标准与规范）",
+      "description_en": "Official website of the World Wide Web Consortium (web standards and specifications)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.w3.org",
+      "official_channels": [
+        "https://www.w3.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；万维网标准组织。注：首页有反爬 403（HTTP/2 下 200），按 403 口径记\"无法判断\"、不计连续失败、不触发降级，需人工复验"
+      },
+      "tags": [
+        "standards",
+        "web",
+        "open-standards"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ietf",
+      "name": "IETF",
+      "name_en": "IETF",
+      "category": "dev-tools",
+      "description": "互联网工程任务组官网（互联网协议标准与 RFC）",
+      "description_en": "Official website of the Internet Engineering Task Force (internet protocol standards and RFCs)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.ietf.org",
+      "official_channels": [
+        "https://www.ietf.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；互联网标准组织"
+      },
+      "tags": [
+        "standards",
+        "rfc",
+        "open-standards"
       ],
       "status": "active"
     }

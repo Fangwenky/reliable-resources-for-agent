@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updated_at": "2026-10-05",
-  "generated_at": "2026-10-06",
+  "updated_at": "2026-10-09",
+  "generated_at": "2026-10-09",
   "skill_version": "1.0.0",
   "categories": [
     "academic",
@@ -14,9 +14,9 @@
   "counts": {
     "academic": 4,
     "dataset": 2,
-    "dev-tools": 31,
+    "dev-tools": 34,
     "ebooks": 2,
     "media": 1,
-    "other": 2
+    "other": 4
   }
 }

@@ -1,9 +1,9 @@
 {
   "version": 1,
-  "updated_at": "2026-10-05",
-  "generated_at": "2026-10-06",
+  "updated_at": "2026-10-09",
+  "generated_at": "2026-10-09",
   "skill_version": "1.0.0",
-  "count": 42,
+  "count": 47,
   "resources": [
     {
       "id": "arxiv",
@@ -1086,6 +1086,136 @@
       "tags": [
         "linux",
         "os"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "nginx",
+      "name": "nginx 官网",
+      "name_en": "nginx",
+      "category": "dev-tools",
+      "description": "nginx 开源项目官方网站（下载、文档、版本发布）",
+      "description_en": "Official website of the nginx open-source project (downloads, docs, releases)",
+      "listing_type": "endorsed",
+      "homepage": "https://nginx.org",
+      "official_channels": [
+        "https://nginx.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；开源项目官方站点"
+      },
+      "tags": [
+        "nginx",
+        "web-server",
+        "open-source"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "w3c",
+      "name": "W3C",
+      "name_en": "W3C",
+      "category": "dev-tools",
+      "description": "万维网联盟官网（Web 技术标准与规范）",
+      "description_en": "Official website of the World Wide Web Consortium (web standards and specifications)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.w3.org",
+      "official_channels": [
+        "https://www.w3.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；万维网标准组织。注：首页有反爬 403（HTTP/2 下 200），按 403 口径记\"无法判断\"、不计连续失败、不触发降级，需人工复验"
+      },
+      "tags": [
+        "standards",
+        "web",
+        "open-standards"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "mozilla",
+      "name": "Mozilla 官网",
+      "name_en": "Mozilla",
+      "category": "other",
+      "description": "Mozilla 官网（Firefox 背后的非营利组织）",
+      "description_en": "Official Mozilla website (the non-profit organization behind Firefox)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.mozilla.org",
+      "official_channels": [
+        "https://www.mozilla.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；非营利组织运营"
+      },
+      "tags": [
+        "mozilla",
+        "open-source",
+        "non-profit"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "openstreetmap",
+      "name": "OpenStreetMap",
+      "name_en": "OpenStreetMap",
+      "category": "other",
+      "description": "开放街图（社区共建的自由世界地图数据）",
+      "description_en": "OpenStreetMap — free world map data built and maintained by the community",
+      "listing_type": "endorsed",
+      "homepage": "https://www.openstreetmap.org",
+      "official_channels": [
+        "https://www.openstreetmap.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；非营利社区项目"
+      },
+      "tags": [
+        "maps",
+        "open-data",
+        "community"
+      ],
+      "status": "active"
+    },
+    {
+      "id": "ietf",
+      "name": "IETF",
+      "name_en": "IETF",
+      "category": "dev-tools",
+      "description": "互联网工程任务组官网（互联网协议标准与 RFC）",
+      "description_en": "Official website of the Internet Engineering Task Force (internet protocol standards and RFCs)",
+      "listing_type": "endorsed",
+      "homepage": "https://www.ietf.org",
+      "official_channels": [
+        "https://www.ietf.org"
+      ],
+      "mirrors": [],
+      "verification": {
+        "method": "official-domain",
+        "verified_at": "2026-10-09",
+        "verified_by": "maintainer",
+        "evidence": "官方域名，长期稳定；探活 200；互联网标准组织"
+      },
+      "tags": [
+        "standards",
+        "rfc",
+        "open-standards"
       ],
       "status": "active"
     }
