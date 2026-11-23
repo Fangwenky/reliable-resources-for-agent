@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Reliable Resources for Agent">
+  <title>Reliable Resources for Agent</title>
+  <defs>
+    <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10b981"/>
+      <stop offset="0.55" stop-color="#059669"/>
+      <stop offset="1" stop-color="#047857"/>
+    </linearGradient>
+  </defs>
+  <!-- shield: trust / verified registry -->
+  <path fill="url(#shield)" d="M32 3 L52 10.5 V31 C52 45.5 43.5 54.5 32 59 C20.5 54.5 12 45.5 12 31 V10.5 Z"/>
+  <!-- inner hairline: badge feel -->
+  <path fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.5" d="M32 8.4 L47.4 14.6 V30.8 C47.4 42.6 40.3 50 32 53.8 C23.7 50 16.6 42.6 16.6 30.8 V14.6 Z"/>
+  <!-- check: human-reviewed, verified -->
+  <path fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" d="M21 33 L28.5 40.5 L44 24"/>
+</svg>
